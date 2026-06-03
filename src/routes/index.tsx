@@ -263,6 +263,14 @@ function Index() {
           </div>
         </div>
         <p className="text-center text-[10px] text-gray-300 font-medium">© 2026 Acqua Soft Atendimento • v2.0</p>
+        <motion.p 
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="text-center text-[10px] text-blue-500 font-bold uppercase tracking-widest"
+        >
+          Desenvolvido por Uriel da Fonseca Fortunato
+        </motion.p>
+
       </footer>
 
       {/* Floating WhatsApp Button */}
