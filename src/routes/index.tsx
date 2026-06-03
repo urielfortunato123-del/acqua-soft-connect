@@ -281,6 +281,8 @@ function Index() {
               <a href="https://www.acquasoftjau.com.br" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">www.acquasoftjau.com.br</a>
             </div>
           </div>
+        </div>
+
 
         <p className="text-center text-[10px] text-gray-300 font-medium">© 2026 Acqua Soft Atendimento • v2.0</p>
         <motion.p 
