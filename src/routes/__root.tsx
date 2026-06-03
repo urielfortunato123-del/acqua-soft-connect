@@ -50,9 +50,8 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen flex flex-col">
-        <header className="bg-primary p-4 shadow-md flex justify-center sticky top-0 z-50">
-          <img src="/lovable-uploads/605b8a0a-e377-4402-861c-5d63f9a77348.png" alt="Acqua Soft" className="h-12 object-contain" />
-        </header>
+        {/* Removido cabeçalho duplicado para focar na tela inicial premium */}
+
         <main className="flex-1 overflow-x-hidden">
           <Outlet />
         </main>

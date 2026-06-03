@@ -46,8 +46,9 @@ function Index() {
             />
           </div>
         </div>
-        <h1 className="text-3xl font-bold text-center mb-2">Acqua Soft</h1>
+        {/* Removido o nome de texto para manter apenas a logo */}
         <p className="text-blue-100 text-center mb-8">Soluções em Purificação de Água</p>
+
         
         {/* Trust Badges */}
         <div className="grid grid-cols-2 gap-3">
