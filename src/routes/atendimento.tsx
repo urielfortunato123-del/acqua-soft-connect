@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MapPin, Camera, Video, Mic, Send, ArrowLeft, Loader2, Info } from "lucide-react";
-import { supabase } from "../lib/supabase";
 import { 
   cn, 
   PURIFIER_MODELS, 
