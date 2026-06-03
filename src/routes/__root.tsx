@@ -55,10 +55,6 @@ function RootComponent() {
         <main className="flex-1 overflow-x-hidden">
           <Outlet />
         </main>
-        <footer className="p-4 text-center text-xs text-muted-foreground bg-white/50">
-          <p>Acqua Soft Purificadores - Jaú/SP</p>
-          <p>Rua Tenente Lopes, 1175 - Centro</p>
-        </footer>
       </div>
       <Toaster position="top-center" richColors />
     </QueryClientProvider>
