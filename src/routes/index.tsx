@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SERVICE_TYPES } from "../lib/utils";
+import { Chatbot } from "../components/Chatbot";
+
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -23,7 +25,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'welcome' | 'services'>('welcome');
+  const [activeTab, setActiveTab] = useState<'welcome' | 'services' | 'chatbot'>('welcome');
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -73,8 +75,13 @@ function Index() {
     visible: { y: 0, opacity: 1 }
   };
 
+  if (activeTab === 'chatbot') {
+    return <Chatbot onBack={() => setActiveTab('welcome')} />;
+  }
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-24 font-inter overflow-x-hidden">
+
       {/* Hero Banner Section (35% height approx) */}
       <section className="relative h-[42vh] overflow-hidden">
         {/* Modern Gradient Background */}
@@ -264,11 +271,12 @@ function Index() {
         animate={{ scale: 1, opacity: 1 }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        onClick={openWhatsApp}
-        className="fixed bottom-6 right-6 w-16 h-16 bg-[#25D366] text-white rounded-full shadow-2xl flex items-center justify-center z-50 border-4 border-white"
+        onClick={() => setActiveTab('chatbot')}
+        className="fixed bottom-6 right-6 w-16 h-16 bg-[#075E54] text-white rounded-full shadow-2xl flex items-center justify-center z-50 border-4 border-white"
       >
         <MessageCircle className="w-8 h-8 fill-current" />
       </motion.button>
+
     </div>
   );
 }
