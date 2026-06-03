@@ -1,7 +1,24 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { MapPin, Camera, Video, Mic, Send, ArrowLeft, Loader2, Info } from "lucide-react";
+import { 
+  MapPin, 
+  Camera, 
+  Video, 
+  Mic, 
+  Send, 
+  ArrowLeft, 
+  Loader2, 
+  Info,
+  ChevronRight,
+  ChevronLeft,
+  CheckCircle2,
+  Settings,
+  Droplet,
+  Wrench,
+  AlertCircle
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   cn, 
   PURIFIER_MODELS, 
@@ -26,6 +43,7 @@ export const Route = createFileRoute("/atendimento")({
   },
   component: AtendimentoPage,
 });
+
 
 function AtendimentoPage() {
   const { tipo, cliente } = Route.useSearch();
