@@ -266,13 +266,14 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
         <button onClick={onBack} className="p-1 hover:bg-white/10 rounded-full">
           <ChevronLeft className="w-6 h-6" />
         </button>
-        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden">
+        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden p-1">
           <img 
-            src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780513779/promaxx/brm9x7wmlgi4r2oizt7i.png" 
+            src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" 
             alt="Logo" 
-            className="w-8 h-auto"
+            className="w-full h-auto"
           />
         </div>
+
         <div>
           <h2 className="font-bold text-sm">Acqua Soft Connect</h2>
           <p className="text-[10px] text-white/80">Online agora</p>

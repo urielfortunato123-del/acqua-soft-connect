@@ -95,11 +95,12 @@ function Index() {
           {/* Logo and Header */}
           <div className="flex items-center gap-3 mb-8">
             <div className="bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/20">
-               <img 
-                src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780513779/promaxx/brm9x7wmlgi4r2oizt7i.png" 
+              <img 
+                src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514625/promaxx/mr4nolr2utujehhbhlcu.png" 
                 alt="Acqua Soft Logo" 
-                className="h-8 w-auto brightness-0 invert" 
+                className="h-12 w-auto" 
               />
+
             </div>
             <div>
               <h2 className="text-white font-bold tracking-tight text-xl leading-none">ACQUA SOFT</h2>
