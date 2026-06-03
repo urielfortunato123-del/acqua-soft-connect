@@ -40,7 +40,7 @@ function Index() {
         <div className="flex justify-center mb-6">
           <div className="bg-white p-2 rounded-2xl shadow-lg">
             <img 
-              src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780513779/promaxx/brm9x7wmlgi4r2oizt7i.png" 
+              src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514084/promaxx/c0ihxtzb5lt66jia9uxi.png" 
               alt="Acqua Soft Logo" 
               className="h-16 w-auto" 
             />
