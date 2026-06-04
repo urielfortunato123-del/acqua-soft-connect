@@ -36,14 +36,15 @@ export const ShareButton = () => {
   };
 
   return (
-    <div className="fixed top-4 right-4 z-[9999]">
+    <div className="fixed top-[12px] right-[12px] z-[9999]">
       <motion.div
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        transition={{ duration: 0.2, ease: "easeInOut" }}
       >
         <Button
           onClick={handleShare}
-          className="bg-white/90 backdrop-blur-md text-[#003B73] border border-white/40 shadow-lg rounded-full h-10 px-3 flex items-center gap-2 font-bold text-sm uppercase tracking-wider transition-all duration-300 hover:shadow-xl w-fit"
+          className="bg-white text-[#003B73] border border-gray-100 shadow-md rounded-[20px] h-[40px] px-3 flex items-center gap-2 font-bold text-[14px] transition-all duration-200 w-fit hover:bg-white"
         >
           <AnimatePresence mode="wait">
             {copied ? (
@@ -66,8 +67,7 @@ export const ShareButton = () => {
               </motion.div>
             )}
           </AnimatePresence>
-          <span className="hidden sm:inline">Compartilhar Aplicativo</span>
-          <span className="sm:hidden">Compartilhar</span>
+          <span className="hidden min-[480px]:inline">Compartilhar</span>
         </Button>
       </motion.div>
     </div>
