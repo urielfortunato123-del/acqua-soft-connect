@@ -252,12 +252,12 @@ export function TechnicalSupportForm() {
                 <label className="flex-1 aspect-square bg-muted rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-border hover:border-secondary cursor-pointer transition-all">
                   <Camera className="w-8 h-8 text-muted-foreground/30" />
                   <span className="text-[10px] font-bold text-muted-foreground mt-2 uppercase">Foto</span>
-                  <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e, 'image')} />
+                  <input type="file" accept="image/*" capture="environment" className="hidden" onChange={(e) => handleFileUpload(e, 'image')} />
                 </label>
                 <label className="flex-1 aspect-square bg-muted rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-border hover:border-secondary cursor-pointer transition-all">
                   <Video className="w-8 h-8 text-muted-foreground/30" />
                   <span className="text-[10px] font-bold text-muted-foreground mt-2 uppercase">Vídeo</span>
-                  <input type="file" accept="video/*" className="hidden" onChange={(e) => handleFileUpload(e, 'video')} />
+                  <input type="file" accept="video/*" capture="environment" className="hidden" onChange={(e) => handleFileUpload(e, 'video')} />
                 </label>
               </div>
               {files.length > 0 && (
