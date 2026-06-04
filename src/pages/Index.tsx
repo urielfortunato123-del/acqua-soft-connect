@@ -131,7 +131,7 @@ export default function Index() {
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={toggleDarkMode}
-              className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg"
+              className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg mr-14"
             >
               {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </motion.button>
