@@ -1,11 +1,25 @@
 import { Share2, Check } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 
 export const ShareButton = () => {
   const [copied, setCopied] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const shareData = {
     title: 'Acqua Soft Atendimento',
@@ -36,39 +50,47 @@ export const ShareButton = () => {
   };
 
   return (
-    <div className="fixed top-[12px] right-[12px] z-[9999]">
+    <div className="fixed top-4 right-4 z-[9999]">
       <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        transition={{ duration: 0.2, ease: "easeInOut" }}
+        initial={{ opacity: 1, y: 0 }}
+        animate={{ 
+          opacity: isVisible ? 1 : 0,
+          y: isVisible ? 0 : -15,
+          pointerEvents: isVisible ? 'auto' : 'none'
+        }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
       >
-        <Button
-          onClick={handleShare}
-          className="bg-white text-[#003B73] border border-gray-100 shadow-md rounded-[20px] h-[40px] px-3 flex items-center gap-2 font-bold text-[14px] transition-all duration-200 w-fit hover:bg-white"
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          <AnimatePresence mode="wait">
-            {copied ? (
-              <motion.div
-                key="check"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0 }}
-              >
-                <Check className="w-4 h-4 text-green-500" />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="share"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0 }}
-              >
-                <Share2 className="w-4 h-4" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <span className="hidden min-[480px]:inline">Compartilhar</span>
-        </Button>
+          <Button
+            onClick={handleShare}
+            className="w-12 h-12 rounded-full bg-white/80 backdrop-blur-md text-[#003B73] border border-gray-100 shadow-lg flex items-center justify-center p-0 transition-all duration-300 hover:bg-white"
+          >
+            <AnimatePresence mode="wait">
+              {copied ? (
+                <motion.div
+                  key="check"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                >
+                  <Check className="w-5 h-5 text-green-500" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="share"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                >
+                  <Share2 className="w-5 h-5" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Button>
+        </motion.div>
       </motion.div>
     </div>
   );
