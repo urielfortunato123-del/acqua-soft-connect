@@ -307,7 +307,16 @@ export default function Index() {
             </div>
             <div className="text-xs text-gray-500">
               <p className="font-bold text-gray-700">Visite nosso site</p>
-              <a href="https://www.acquasoftjau.com.br" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">www.acquasoftjau.com.br</a>
+              <a href="https://www.acquasoftpurificadores.com.br" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">www.acquasoftpurificadores.com.br</a>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+              <ShieldCheck className="w-4 h-4 text-green-500" />
+            </div>
+            <div className="text-xs text-gray-500">
+              <p className="font-bold text-gray-700">CNPJ</p>
+              <p>44.385.457/0001-38</p>
             </div>
           </div>
         </div>
