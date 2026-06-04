@@ -3,11 +3,12 @@ import { useForm } from "react-hook-form";
 import { FormLayout } from "./FormLayout";
 import { Camera, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { uploadAttachment } from "@/lib/storage";
 
 export function FilterReplacementForm() {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [files, setFiles] = useState<{preview: string}[]>([]);
+  const [files, setFiles] = useState<{preview: string, file: File}[]>([]);
   
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
     mode: "onChange",
@@ -24,22 +25,47 @@ export function FilterReplacementForm() {
 
   const watchAll = watch();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     setLoading(true);
-    let message = `*SOLICITAÇÃO DE TROCA DE REFIL*\n\n`;
-    message += `*DADOS DO CLIENTE*\n`;
-    message += `*Nome:* ${data.nome}\n`;
-    message += `*WhatsApp:* ${data.whatsapp}\n`;
-    message += `*Cidade:* ${data.cidade}\n`;
-    message += `*Bairro:* ${data.bairro}\n\n`;
-    
-    message += `*DADOS DO EQUIPAMENTO*\n`;
-    message += `*Modelo:* ${data.modelo}\n`;
-    message += `*Última troca:* ${data.ultima_troca}\n`;
-    message += `*Deseja visita técnica:* ${data.visita_tecnica}\n`;
-    
-    const waUrl = `https://wa.me/5514981200302?text=${encodeURIComponent(message)}`;
-    window.location.href = waUrl;
+    try {
+      let attachmentLinks = "";
+      if (files.length > 0) {
+        toast.info("Enviando anexos...");
+        const uploadPromises = files.map(f => uploadAttachment(f.file));
+        const urls = await Promise.all(uploadPromises);
+        const validUrls = urls.filter(url => url !== null);
+        
+        if (validUrls.length > 0) {
+          attachmentLinks = "\n\n*ANEXOS SALVOS:*";
+          validUrls.forEach((url, idx) => {
+            attachmentLinks += `\nLink ${idx + 1}: ${url}`;
+          });
+          toast.success("Os anexos foram salvos e os links serão enviados junto com o atendimento.");
+        }
+      }
+
+      let message = `*SOLICITAÇÃO DE TROCA DE REFIL*\n\n`;
+      message += `*DADOS DO CLIENTE*\n`;
+      message += `*Nome:* ${data.nome}\n`;
+      message += `*WhatsApp:* ${data.whatsapp}\n`;
+      message += `*Cidade:* ${data.cidade}\n`;
+      message += `*Bairro:* ${data.bairro}\n\n`;
+      
+      message += `*DADOS DO EQUIPAMENTO*\n`;
+      message += `*Modelo:* ${data.modelo}\n`;
+      message += `*Última troca:* ${data.ultima_troca}\n`;
+      message += `*Deseja visita técnica:* ${data.visita_tecnica}`;
+      
+      message += attachmentLinks;
+      
+      const waUrl = `https://wa.me/5514981200302?text=${encodeURIComponent(message)}`;
+      window.location.href = waUrl;
+    } catch (error) {
+      console.error(error);
+      toast.error("Ocorreu um erro ao processar o atendimento.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const nextStep = () => setStep(s => s + 1);
@@ -53,7 +79,7 @@ export function FilterReplacementForm() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFiles(prev => [...prev, { preview: reader.result as string }]);
+        setFiles(prev => [...prev, { preview: reader.result as string, file }]);
         toast.success(`Foto adicionada!`);
       };
       reader.readAsDataURL(file);
