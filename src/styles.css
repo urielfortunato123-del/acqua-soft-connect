@@ -52,6 +52,48 @@
   --radius: 1rem;
 }
 
+.dark {
+  --background: #020617;
+  --foreground: #F8FAFC;
+  --card: #1E293B;
+  --card-foreground: #F8FAFC;
+  --popover: #1E293B;
+  --popover-foreground: #F8FAFC;
+  --primary: #38BDF8;
+  --primary-foreground: #020617;
+  --secondary: #0EA5E9;
+  --secondary-foreground: #FFFFFF;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  --accent: #1E293B;
+  --accent-foreground: #F8FAFC;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: #334155;
+  --input: #334155;
+  --ring: #38BDF8;
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl;
+  }
+  .dark .glass {
+    @apply bg-slate-900/60 backdrop-blur-xl border border-white/10 shadow-2xl;
+  }
+  
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-move 8s ease infinite;
+  }
+}
+
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 body {
   @apply bg-background text-foreground font-sans antialiased;
 }

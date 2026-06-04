@@ -13,7 +13,9 @@ import {
   MapPin,
   ChevronRight,
   ArrowRight,
-  Download
+  Download,
+  Moon,
+  Sun
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../lib/utils";
@@ -25,6 +27,29 @@ export default function Index() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'welcome' | 'services' | 'chatbot'>('welcome');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return document.documentElement.classList.contains('dark');
+    }
+    return false;
+  });
+
+  const toggleDarkMode = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    if (newMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+    
+    // Haptic feedback se disponível
+    if (window.navigator && window.navigator.vibrate) {
+      window.navigator.vibrate(10);
+    }
+  };
 
 
   useEffect(() => {
@@ -70,37 +95,53 @@ export default function Index() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pb-24 font-inter overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground pb-24 font-inter overflow-x-hidden transition-colors duration-500">
       <PWAInstallPrompt />
       <ShareButton />
 
-      <section className="relative h-[42vh] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#003B73] via-[#0077B6] to-[#00B4D8]" />
+      <section className="relative h-[45vh] overflow-hidden">
+        <motion.div 
+          animate={{ 
+            background: isDarkMode 
+              ? ["linear-gradient(to bottom right, #0F172A, #1E293B, #0F172A)"] 
+              : ["linear-gradient(to bottom right, #003B73, #0077B6, #00B4D8)"]
+          }}
+          className="absolute inset-0 animate-gradient" 
+        />
         
         <div className="absolute top-[-10%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-[-10%] left-[-10%] w-48 h-48 bg-blue-400/20 rounded-full blur-2xl" />
 
         <div className="relative z-10 h-full flex flex-col px-6 pt-12">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="bg-white p-1 rounded-xl shadow-lg border border-white/20">
-              <img 
-                src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780573444/promaxx/phxku1jfhtzl6g0wl748.png" 
-                alt="Acqua Soft Logo" 
-                className="h-12 w-12 object-contain" 
-              />
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+              <div className="bg-white dark:bg-slate-800 p-1 rounded-xl shadow-lg border border-white/20">
+                <img 
+                  src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780573444/promaxx/phxku1jfhtzl6g0wl748.png" 
+                  alt="Acqua Soft Logo" 
+                  className="h-12 w-12 object-contain" 
+                />
+              </div>
+              <div>
+                <h2 className="text-white font-black tracking-tight text-xl leading-none">ACQUA SOFT</h2>
+                <span className="text-blue-100/80 text-[10px] uppercase font-bold tracking-[0.2em]">Connect</span>
+              </div>
             </div>
-            <div>
-              <h2 className="text-white font-black tracking-tight text-xl leading-none">ACQUA SOFT</h2>
-              <span className="text-blue-100/80 text-[10px] uppercase font-bold tracking-[0.2em]">Connect</span>
-            </div>
+            
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={toggleDarkMode}
+              className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg"
+            >
+              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </motion.button>
           </div>
-
 
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="max-w-[80%]"
+            className="max-w-[85%]"
           >
             <h1 className="text-4xl font-extrabold text-white leading-tight mb-3">
               ACQUA SOFT CONNECT
@@ -110,7 +151,7 @@ export default function Index() {
             </p>
           </motion.div>
 
-          <div className="absolute right-[-20px] bottom-4 w-48 opacity-40 mix-blend-overlay">
+          <div className="absolute right-[-20px] bottom-4 w-48 opacity-20 mix-blend-overlay">
             <Droplet className="w-full h-full text-white" strokeWidth={0.5} />
           </div>
         </div>
@@ -129,60 +170,61 @@ export default function Index() {
             <motion.div 
               key={i}
               variants={itemVariants}
-              className="bg-white/80 backdrop-blur-xl p-4 rounded-2xl shadow-sm border border-white/50 flex flex-col gap-2"
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="glass p-4 rounded-2xl flex flex-col gap-2 transition-all duration-300"
             >
-              <badge.icon className={`w-6 h-6 ${badge.color}`} />
-              <span className="text-xs font-bold text-[#003B73] leading-tight">{badge.label}</span>
+              <badge.icon className={cn("w-6 h-6", badge.color)} />
+              <span className="text-xs font-bold text-primary dark:text-blue-200 leading-tight">{badge.label}</span>
             </motion.div>
           ))}
         </motion.div>
       </div>
 
       <section className="px-6 mt-8">
-        <h3 className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-4 ml-1">Como podemos ajudar?</h3>
+        <h3 className="text-muted-foreground text-xs font-bold uppercase tracking-widest mb-4 ml-1">Como podemos ajudar?</h3>
         <div className="grid gap-4">
           <motion.button 
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveTab('services')}
-            className="group relative overflow-hidden bg-white p-6 rounded-[2rem] shadow-lg shadow-gray-200/50 border border-gray-100 text-left"
+            className="group relative overflow-hidden glass p-6 rounded-[2rem] text-left transition-all duration-300"
           >
             <div className="flex justify-between items-start relative z-10">
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-[#003B73]">
+                <div className="flex items-center gap-2 text-primary dark:text-blue-300">
                   <Wrench className="w-5 h-5" />
                   <span className="font-extrabold text-lg">JÁ POSSUO UM PURIFICADOR</span>
                 </div>
-                <p className="text-gray-500 text-sm font-medium">Suporte técnico, troca de refil e manutenção.</p>
-                <div className="pt-2 flex items-center gap-2 text-[#0077B6] font-bold text-sm">
-                  Acessar <ChevronRight className="w-4 h-4" />
+                <p className="text-muted-foreground text-sm font-medium">Suporte técnico, troca de refil e manutenção.</p>
+                <div className="pt-2 flex items-center gap-2 text-secondary dark:text-blue-400 font-bold text-sm">
+                  Acessar <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </div>
-            <div className="absolute right-[-10px] bottom-[-10px] opacity-[0.03] rotate-12">
+            <div className="absolute right-[-10px] bottom-[-10px] opacity-[0.03] dark:opacity-[0.05] rotate-12 transition-transform group-hover:scale-110">
               <Wrench className="w-32 h-32" />
             </div>
           </motion.button>
 
           <motion.button 
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => handleServiceSelect('orcamento', false)}
-            className="group relative overflow-hidden bg-white p-6 rounded-[2rem] shadow-lg shadow-gray-200/50 border border-gray-100 text-left"
+            className="group relative overflow-hidden glass p-6 rounded-[2rem] text-left transition-all duration-300"
           >
             <div className="flex justify-between items-start relative z-10">
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-[#0077B6]">
+                <div className="flex items-center gap-2 text-secondary dark:text-blue-400">
                   <Droplet className="w-5 h-5" />
                   <span className="font-extrabold text-lg uppercase">Quero um purificador</span>
                 </div>
-                <p className="text-gray-500 text-sm font-medium">Solicite orçamento e instalação profissional.</p>
-                <div className="pt-2 flex items-center gap-2 text-[#00B4D8] font-bold text-sm">
-                  Solicitar <ChevronRight className="w-4 h-4" />
+                <p className="text-muted-foreground text-sm font-medium">Solicite orçamento e instalação profissional.</p>
+                <div className="pt-2 flex items-center gap-2 text-blue-400 dark:text-blue-500 font-bold text-sm">
+                  Solicitar <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </div>
-            <div className="absolute right-[-10px] bottom-[-10px] opacity-[0.03] rotate-12">
+            <div className="absolute right-[-10px] bottom-[-10px] opacity-[0.03] dark:opacity-[0.05] rotate-12 transition-transform group-hover:scale-110">
               <Droplet className="w-32 h-32" />
             </div>
           </motion.button>
@@ -205,17 +247,20 @@ export default function Index() {
               {services.map((service) => (
                 <motion.button
                   key={service.id}
-                  whileHover={{ y: -5 }}
+                  whileHover={{ y: -5, scale: 1.02 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleServiceSelect(service.id, true)}
-                  className="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 flex flex-col gap-3 text-left"
+                  className="glass p-5 rounded-3xl flex flex-col gap-3 text-left transition-all duration-300"
                 >
-                  <div className={`w-10 h-10 rounded-2xl bg-${service.color}-50 flex items-center justify-center text-${service.color}-600`}>
+                  <div className={cn(
+                    "w-10 h-10 rounded-2xl flex items-center justify-center",
+                    `bg-${service.color}-50 dark:bg-${service.color}-900/20 text-${service.color}-600 dark:text-${service.color}-400`
+                  )}>
                     <service.icon className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-bold text-gray-900 text-sm leading-tight">{service.label}</p>
-                    <p className="text-[10px] text-gray-400 mt-1">{service.description}</p>
+                    <p className="font-bold text-foreground text-sm leading-tight">{service.label}</p>
+                    <p className="text-[10px] text-muted-foreground mt-1">{service.description}</p>
                   </div>
                 </motion.button>
               ))}
@@ -225,51 +270,51 @@ export default function Index() {
       </AnimatePresence>
 
       <footer className="px-6 mt-12 mb-8 space-y-6">
-        <div className="h-px bg-gray-200 w-full" />
+        <div className="h-px bg-border w-full" />
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+            <div className="glass p-2 rounded-xl">
               <MapPin className="w-4 h-4 text-blue-500" />
             </div>
-            <div className="text-xs text-gray-500">
-              <p className="font-bold text-gray-700">Rua Tenente Lopes, 1175</p>
+            <div className="text-xs text-muted-foreground">
+              <p className="font-bold text-foreground">Rua Tenente Lopes, 1175</p>
               <p>Centro - Jaú/SP</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+            <div className="glass p-2 rounded-xl">
               <MessageCircle className="w-4 h-4 text-green-500" />
             </div>
-            <div className="text-xs text-gray-500">
-              <p className="font-bold text-gray-700">(14) 98120-0302</p>
+            <div className="text-xs text-muted-foreground">
+              <p className="font-bold text-foreground">(14) 98120-0302</p>
               <p>vendas@acquasoftjau.com.br</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+            <div className="glass p-2 rounded-xl">
               <Zap className="w-4 h-4 text-amber-500" />
             </div>
-            <div className="text-xs text-gray-500">
-              <p className="font-bold text-gray-700">Horário de Atendimento</p>
+            <div className="text-xs text-muted-foreground">
+              <p className="font-bold text-foreground">Horário de Atendimento</p>
               <p>Segunda a Sexta: 08:00 às 18:00</p>
               <p>Sábado: 08:00 às 12:00</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+            <div className="glass p-2 rounded-xl">
               <ClipboardList className="w-4 h-4 text-indigo-500" />
             </div>
-            <div className="text-xs text-gray-500">
-              <p className="font-bold text-gray-700">Visite nosso site</p>
+            <div className="text-xs text-muted-foreground">
+              <p className="font-bold text-foreground">Visite nosso site</p>
               <a href="https://www.acquasoftpurificadores.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">www.acquasoftpurificadores.com</a>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+            <div className="glass p-2 rounded-xl">
               <ShieldCheck className="w-4 h-4 text-green-500" />
             </div>
-            <div className="text-xs text-gray-500">
-              <p className="font-bold text-gray-700">CNPJ</p>
+            <div className="text-xs text-muted-foreground">
+              <p className="font-bold text-foreground">CNPJ</p>
               <p>44.385.457/0001-38</p>
             </div>
           </div>
@@ -293,8 +338,13 @@ export default function Index() {
         animate={{ scale: 1, opacity: 1 }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        onClick={() => setActiveTab('chatbot')}
-        className="fixed bottom-6 right-6 w-16 h-16 bg-[#075E54] text-white rounded-full shadow-2xl flex items-center justify-center z-50 border-4 border-white"
+        onClick={() => {
+          setActiveTab('chatbot');
+          if (window.navigator && window.navigator.vibrate) {
+            window.navigator.vibrate(20);
+          }
+        }}
+        className="fixed bottom-6 right-6 w-16 h-16 bg-[#075E54] text-white rounded-full shadow-2xl flex items-center justify-center z-50 border-4 border-white dark:border-slate-800"
       >
         <MessageCircle className="w-8 h-8 fill-current" />
       </motion.button>
