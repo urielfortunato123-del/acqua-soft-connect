@@ -355,8 +355,9 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
                 )}
               >
                 <div className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</div>
-                <div className="text-[9px] text-gray-400 text-right mt-1 opacity-70">
+                <div className="text-[9px] text-gray-400 text-right mt-1 opacity-70 flex items-center justify-end gap-1">
                   {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {msg.type === 'user' && <CheckCircle2 className="w-3 h-3 text-[#34B7F1]" />}
                 </div>
               </motion.div>
             </div>
@@ -393,14 +394,27 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
             {showOptions && currentStep?.options && (
               <motion.div 
                 key={currentStepId}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                variants={{
+                  hidden: { opacity: 0 },
+                  show: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.1
+                    }
+                  }
+                }}
+                initial="hidden"
+                animate="show"
                 exit={{ opacity: 0, scale: 0.95 }}
                 className="grid gap-2"
               >
                 {currentStep.options.map((option, idx) => (
-                  <button
+                  <motion.button
                     key={idx}
+                    variants={{
+                      hidden: { opacity: 0, y: 10 },
+                      show: { opacity: 1, y: 0 }
+                    }}
                     onClick={() => handleOptionClick(option)}
                     className="bg-white hover:bg-gray-50 text-[#075E54] font-bold py-3 px-4 rounded-xl shadow-md border border-gray-100 flex items-center justify-between group active:scale-95 transition-all text-sm"
                   >
@@ -409,7 +423,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
                       {option.label}
                     </div>
                     <Send className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </button>
+                  </motion.button>
                 ))}
               </motion.div>
             )}
