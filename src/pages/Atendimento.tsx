@@ -249,32 +249,65 @@ export default function Atendimento({ tipo, cliente }: AtendimentoProps) {
                 className="space-y-6"
               >
                 <div className="space-y-2">
-                  <h2 className="text-2xl font-extrabold text-[#003B73]">Sobre o Purificador</h2>
-                  <p className="text-gray-500 font-medium">Conte-nos mais sobre o seu equipamento.</p>
+                  <h2 className="text-2xl font-extrabold text-[#003B73]">
+                    {cliente === 'sim' ? 'Sobre o Purificador' : 'Sobre sua Necessidade'}
+                  </h2>
+                  <p className="text-gray-500 font-medium">
+                    {cliente === 'sim' ? 'Conte-nos mais sobre o seu equipamento.' : 'Conte-nos o que você procura em um purificador.'}
+                  </p>
                 </div>
 
                 <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 space-y-5">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Modelo</label>
-                    <select {...register("modelo_purificador")} className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-[#003B73] appearance-none">
-                      {PURIFIER_MODELS.map(m => <option key={m} value={m}>{m}</option>)}
-                    </select>
-                  </div>
+                  {cliente === 'sim' ? (
+                    <>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Modelo</label>
+                        <select {...register("modelo_purificador")} className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-[#003B73] appearance-none">
+                          {PURIFIER_MODELS.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                      </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Descreva o que houve</label>
-                    <textarea 
-                      {...register("descricao")} 
-                      className="w-full p-4 bg-gray-50 rounded-2xl outline-none h-32 font-medium resize-none" 
-                      placeholder="Detalhes que podem nos ajudar..." 
-                    />
-                  </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Problema ou solicitação</label>
+                        <textarea 
+                          {...register("descricao")} 
+                          className="w-full p-4 bg-gray-50 rounded-2xl outline-none h-32 font-medium resize-none" 
+                          placeholder="Ex: Vazamento, troca de refil, não gela..." 
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Tipo de Imóvel</label>
+                        <select {...register("tipo_imovel")} className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-[#003B73] appearance-none">
+                          {IMMOBILE_TYPES.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Quantidade de Pessoas</label>
+                        <select {...register("qtd_pessoas")} className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-[#003B73] appearance-none">
+                          {PEOPLE_QUANTITY.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Interesse Principal</label>
+                        <select {...register("interesse")} className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-[#003B73] appearance-none">
+                          {INTERESTS.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <div className="bg-[#003B73]/5 p-6 rounded-[2rem] border border-blue-100/50 flex gap-4">
                   <AlertCircle className="w-6 h-6 text-[#003B73] shrink-0" />
                   <p className="text-sm text-[#003B73] font-medium leading-relaxed">
-                    Sua segurança é nossa prioridade. Todos os atendimentos são realizados por técnicos certificados.
+                    {cliente === 'sim' 
+                      ? 'Sua segurança é nossa prioridade. Todos os atendimentos são realizados por técnicos certificados.'
+                      : 'Nossos especialistas ajudarão você a escolher o modelo ideal para sua família ou empresa.'}
                   </p>
                 </div>
               </motion.div>
