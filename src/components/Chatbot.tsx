@@ -53,6 +53,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
   const [collectedData, setCollectedData] = useState<Record<string, string>>({});
   const [showOptions, setShowOptions] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isInitialized = useRef(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -72,7 +73,9 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     const messageList = Array.isArray(step.message) ? step.message : [step.message];
     
     for (const content of messageList) {
-      if (!content) continue;
+      if (!content && stepId === 'welcome') continue; // Allow empty first message if it leads to options
+      if (!content && step.options) break; 
+
       const delay = Math.min(Math.max(content.length * 20, 500), 1500);
       await new Promise(resolve => setTimeout(resolve, delay));
       
@@ -93,26 +96,25 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
   };
 
   useEffect(() => {
-    addBotMessages('welcome');
+    if (!isInitialized.current) {
+      isInitialized.current = true;
+      addBotMessages('welcome');
+    }
   }, []);
 
   const steps: Record<string, Step> = {
     welcome: {
       id: 'welcome',
       message: [
-        "Olá! Seja bem-vindo à Acqua Soft.",
+        "Olá! Seja bem-vindo à Acqua Soft. Sou sua assistente virtual e vou ajudá-lo a encontrar a melhor solução.",
         "Como podemos ajudar você hoje?"
       ],
-      nextStep: 'initial'
-    },
-    initial: {
-      id: 'initial',
-      message: "",
       options: [
-        { label: "Quero comprar um purificador", icon: Droplet, value: "comprar", nextStep: "quote_name" },
-        { label: "Suporte técnico", icon: Wrench, value: "suporte", nextStep: "support_name" },
-        { label: "Manutenção preventiva", icon: ShieldCheck, value: "manutencao", nextStep: "maint_name" },
-        { label: "Troca de refil", icon: Droplet, value: "refil", nextStep: "refil_name" },
+        { label: "Suporte Técnico", icon: Wrench, value: "suporte", nextStep: "support_name" },
+        { label: "Troca de Refil", icon: Droplet, value: "refil", nextStep: "refil_name" },
+        { label: "Solicitar Orçamento", icon: ClipboardList, value: "comprar", nextStep: "quote_name" },
+        { label: "Manutenção Preventiva", icon: ShieldCheck, value: "manutencao", nextStep: "maint_name" },
+        { label: "Falar com Atendente", icon: MessageCircle, value: "atendente", action: () => window.open(`https://wa.me/5514981200302?text=${encodeURIComponent("Olá, gostaria de falar com um atendente.")}`, "_blank") },
       ]
     },
     // Support Flow
