@@ -112,11 +112,11 @@ export function PreventiveMaintenanceForm() {
               <p className="text-muted-foreground font-medium">Preencha seus dados básicos.</p>
             </div>
             <div className="bg-card p-6 rounded-[2rem] shadow-sm border border-border space-y-4">
-              <input {...register("nome", { required: true })} placeholder="Seu Nome completo" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground" />
-              <input {...register("whatsapp", { required: true })} placeholder="WhatsApp (DDD)" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground" />
+              <input {...register("nome", { required: true })} placeholder="Seu Nome completo" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground placeholder:text-muted-foreground" />
+              <input {...register("whatsapp", { required: true })} placeholder="WhatsApp (DDD)" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground placeholder:text-muted-foreground" />
               <div className="grid grid-cols-2 gap-3">
-                <input {...register("cidade", { required: true })} placeholder="Cidade" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground" />
-                <input {...register("bairro", { required: true })} placeholder="Bairro" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground" />
+                <input {...register("cidade", { required: true })} placeholder="Cidade" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground placeholder:text-muted-foreground" />
+                <input {...register("bairro", { required: true })} placeholder="Bairro" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground placeholder:text-muted-foreground" />
               </div>
             </div>
           </div>
