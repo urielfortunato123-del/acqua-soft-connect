@@ -170,10 +170,11 @@ export default function Index() {
             <motion.div 
               key={i}
               variants={itemVariants}
-              className="bg-white/80 backdrop-blur-xl p-4 rounded-2xl shadow-sm border border-white/50 flex flex-col gap-2"
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="glass p-4 rounded-2xl flex flex-col gap-2 transition-all duration-300"
             >
-              <badge.icon className={`w-6 h-6 ${badge.color}`} />
-              <span className="text-xs font-bold text-[#003B73] leading-tight">{badge.label}</span>
+              <badge.icon className={cn("w-6 h-6", badge.color)} />
+              <span className="text-xs font-bold text-primary dark:text-blue-200 leading-tight">{badge.label}</span>
             </motion.div>
           ))}
         </motion.div>
