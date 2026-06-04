@@ -234,7 +234,7 @@ export function TechnicalSupportForm() {
             <div className="bg-card p-6 rounded-[2rem] shadow-sm border border-border">
               <textarea 
                 {...register("descricao", { required: true })} 
-                className="w-full p-4 bg-muted rounded-2xl outline-none h-40 font-medium resize-none border-2 border-transparent focus:border-secondary text-foreground" 
+                className="w-full p-4 bg-muted rounded-2xl outline-none h-40 font-medium resize-none border-2 border-transparent focus:border-secondary text-foreground placeholder:text-muted-foreground" 
                 placeholder="Conte-nos o que aconteceu..."
               />
             </div>
