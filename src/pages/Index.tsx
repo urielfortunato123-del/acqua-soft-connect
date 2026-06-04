@@ -123,8 +123,8 @@ export default function Index() {
             transition={{ delay: 0.3 }}
             className="max-w-[80%]"
           >
-            <h1 className="text-4xl font-extrabold text-white leading-tight mb-3">
-              ACQUA SOFT CONNECT
+            <h1 className="text-4xl font-black text-white leading-[1.1] mb-4 tracking-tight">
+              Soluções inteligentes para sua <span className="text-cyan-300">água.</span>
             </h1>
             <p className="text-blue-100 text-lg leading-relaxed font-medium">
               Solicite suporte, manutenção ou orçamento em poucos minutos.
