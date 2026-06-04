@@ -20,11 +20,12 @@ interface Message {
   type: 'bot' | 'user';
   content: string | React.ReactNode;
   timestamp: Date;
+  isTyping?: boolean;
 }
 
 interface Step {
   id: string;
-  message: string;
+  message: string | string[]; // Support multiple sequential messages
   options?: Array<{
     label: string;
     icon?: any;
@@ -37,18 +38,33 @@ interface Step {
   nextStep?: string;
 }
 
+const TypingIndicator = () => (
+  <div className="flex gap-1 p-2">
+    <motion.div
+      animate={{ scale: [1, 1.2, 1] }}
+      transition={{ repeat: Infinity, duration: 0.6 }}
+      className="w-1.5 h-1.5 bg-gray-400 rounded-full"
+    />
+    <motion.div
+      animate={{ scale: [1, 1.2, 1] }}
+      transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }}
+      className="w-1.5 h-1.5 bg-gray-400 rounded-full"
+    />
+    <motion.div
+      animate={{ scale: [1, 1.2, 1] }}
+      transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }}
+      className="w-1.5 h-1.5 bg-gray-400 rounded-full"
+    />
+  </div>
+);
+
 export function Chatbot({ onBack }: { onBack: () => void }) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      type: 'bot',
-      content: "Olá, seja bem-vindo à Acqua Soft. Como podemos ajudar você hoje?",
-      timestamp: new Date(),
-    }
-  ]);
-  const [currentStepId, setCurrentStepId] = useState('initial');
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isBotTyping, setIsBotTyping] = useState(false);
+  const [currentStepId, setCurrentStepId] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [collectedData, setCollectedData] = useState<Record<string, string>>({});
+  const [showOptions, setShowOptions] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -57,12 +73,57 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isBotTyping]);
+
+  const addBotMessages = async (stepId: string) => {
+    const step = steps[stepId];
+    if (!step) return;
+
+    setIsBotTyping(true);
+    setShowOptions(false);
+    
+    const messageList = Array.isArray(step.message) ? step.message : [step.message];
+    
+    for (const content of messageList) {
+      if (!content) continue;
+      // Simulate typing delay based on message length
+      const delay = Math.min(Math.max(content.length * 30, 800), 2000);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      
+      setMessages(prev => [...prev, {
+        id: Math.random().toString(),
+        type: 'bot',
+        content,
+        timestamp: new Date()
+      }]);
+    }
+
+    setIsBotTyping(false);
+    setCurrentStepId(stepId);
+    
+    // Show options or input after a small delay
+    setTimeout(() => {
+      setShowOptions(true);
+    }, 400);
+  };
+
+  useEffect(() => {
+    // Start initial conversation
+    addBotMessages('welcome');
+  }, []);
 
   const steps: Record<string, Step> = {
+    welcome: {
+      id: 'welcome',
+      message: [
+        "Olá! Seja bem-vindo à Acqua Soft. Sou sua assistente virtual e vou ajudá-lo a encontrar a melhor solução.",
+        "Como podemos ajudar você hoje?"
+      ],
+      nextStep: 'initial'
+    },
     initial: {
       id: 'initial',
-      message: "Como podemos ajudar você hoje?",
+      message: "", // Message handled by welcome or empty
       options: [
         { label: "Quero comprar um purificador", icon: Droplet, value: "comprar", nextStep: "buy_name" },
         { label: "Suporte técnico", icon: Wrench, value: "suporte", nextStep: "support_name" },
@@ -89,7 +150,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     },
     buy_finish: {
       id: 'buy_finish',
-      message: "Perfeito! Vou te encaminhar agora mesmo para nossa equipe comercial.",
+      message: ["Perfeito!", "Vou te encaminhar agora mesmo para nossa equipe comercial."],
       options: [
         { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("COMPRA DE PURIFICADOR") }
       ]
@@ -118,7 +179,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     },
     support_finish: {
       id: 'support_finish',
-      message: "Vou encaminhar seu relato para nossos técnicos agora.",
+      message: ["Certo.", "Vou encaminhar seu relato para nossos técnicos agora."],
       options: [
         { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("SUPORTE TÉCNICO") }
       ]
@@ -140,7 +201,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     },
     maint_finish: {
       id: 'maint_finish',
-      message: "Tudo pronto. Vamos agendar agora via WhatsApp.",
+      message: ["Tudo pronto.", "Vamos agendar agora via WhatsApp."],
       options: [
         { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("MANUTENÇÃO PREVENTIVA") }
       ]
@@ -162,7 +223,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     },
     refil_finish: {
       id: 'refil_finish',
-      message: "Vou te passar os modelos e valores no WhatsApp.",
+      message: ["Excelente.", "Vou te passar os modelos e valores no WhatsApp."],
       options: [
         { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("TROCA DE REFIL") }
       ]
@@ -170,7 +231,10 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     // Area Info
     area_info: {
       id: 'area_info',
-      message: "Atendemos Jaú e toda a região! Nossos técnicos se deslocam até você com rapidez.",
+      message: [
+        "Atendemos Jaú e toda a região!", 
+        "Nossos técnicos se deslocam até você com rapidez."
+      ],
       options: [
         { label: "Voltar ao início", value: "back", nextStep: "initial" },
         { label: "Falar com atendente", value: "talk", action: () => openWhatsApp("Olá, gostaria de saber se atendem na minha cidade.") }
@@ -202,6 +266,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
       timestamp: new Date()
     };
     setMessages(prev => [...prev, userMsg]);
+    setShowOptions(false);
 
     if (option.action) {
       option.action();
@@ -209,17 +274,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     }
 
     if (option.nextStep) {
-      setTimeout(() => {
-        const nextStep = steps[option.nextStep];
-        const botMsg: Message = {
-          id: Math.random().toString(),
-          type: 'bot',
-          content: nextStep.message,
-          timestamp: new Date()
-        };
-        setMessages(prev => [...prev, botMsg]);
-        setCurrentStepId(option.nextStep);
-      }, 500);
+      addBotMessages(option.nextStep);
     }
   };
 
@@ -241,19 +296,10 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     
     const nextStepId = currentStep.nextStep;
     setInputValue('');
+    setShowOptions(false);
 
     if (nextStepId) {
-      setTimeout(() => {
-        const nextStep = steps[nextStepId];
-        const botMsg: Message = {
-          id: Math.random().toString(),
-          type: 'bot',
-          content: nextStep.message,
-          timestamp: new Date()
-        };
-        setMessages(prev => [...prev, botMsg]);
-        setCurrentStepId(nextStepId);
-      }, 500);
+      addBotMessages(nextStepId);
     }
   };
 
@@ -282,29 +328,59 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
 
       {/* Chat Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-32">
-        <div className="bg-[#D1E9FF] text-[#4A5568] text-[10px] font-bold py-1 px-3 rounded-lg mx-auto w-fit shadow-sm uppercase tracking-wider">
+        <div className="bg-[#D1E9FF] text-[#4A5568] text-[10px] font-bold py-1 px-3 rounded-lg mx-auto w-fit shadow-sm uppercase tracking-wider mb-6">
           Hoje
         </div>
 
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
-            <motion.div
-              key={msg.id}
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              className={cn(
-                "max-w-[85%] rounded-2xl p-3 shadow-sm relative",
-                msg.type === 'bot' 
-                  ? "bg-white self-start text-[#303030] rounded-tl-none" 
-                  : "bg-[#DCF8C6] self-end text-[#303030] rounded-tr-none ml-auto"
+            <div key={msg.id} className={cn("flex items-end gap-2", msg.type === 'user' && "flex-row-reverse")}>
+              {msg.type === 'bot' && (
+                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-sm shrink-0 border border-gray-100">
+                  <img 
+                    src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" 
+                    alt="Bot" 
+                    className="w-full h-auto"
+                  />
+                </div>
               )}
-            >
-              <div className="text-sm leading-relaxed">{msg.content}</div>
-              <div className="text-[10px] text-gray-400 text-right mt-1">
-                {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </div>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 10, x: msg.type === 'bot' ? -10 : 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+                className={cn(
+                  "max-w-[80%] rounded-2xl p-3 shadow-sm relative",
+                  msg.type === 'bot' 
+                    ? "bg-white text-[#303030] rounded-bl-none" 
+                    : "bg-[#DCF8C6] text-[#303030] rounded-br-none"
+                )}
+              >
+                <div className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</div>
+                <div className="text-[9px] text-gray-400 text-right mt-1 opacity-70 flex items-center justify-end gap-1">
+                  {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {msg.type === 'user' && <CheckCircle2 className="w-3 h-3 text-[#34B7F1]" />}
+                </div>
+              </motion.div>
+            </div>
           ))}
+          
+          {isBotTyping && (
+            <div className="flex items-end gap-2">
+              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-sm shrink-0 border border-gray-100">
+                <img 
+                  src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" 
+                  alt="Bot" 
+                  className="w-full h-auto"
+                />
+              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 10, x: -10 }}
+                animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+                className="bg-white rounded-2xl p-1 shadow-sm rounded-bl-none"
+              >
+                <TypingIndicator />
+              </motion.div>
+            </div>
+          )}
         </AnimatePresence>
         <div ref={messagesEndRef} />
       </div>
@@ -315,17 +391,30 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
           
           {/* Action Options */}
           <AnimatePresence mode="wait">
-            {currentStep?.options && (
+            {showOptions && currentStep?.options && (
               <motion.div 
                 key={currentStepId}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
+                variants={{
+                  hidden: { opacity: 0 },
+                  show: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.1
+                    }
+                  }
+                }}
+                initial="hidden"
+                animate="show"
+                exit={{ opacity: 0, scale: 0.95 }}
                 className="grid gap-2"
               >
                 {currentStep.options.map((option, idx) => (
-                  <button
+                  <motion.button
                     key={idx}
+                    variants={{
+                      hidden: { opacity: 0, y: 10 },
+                      show: { opacity: 1, y: 0 }
+                    }}
                     onClick={() => handleOptionClick(option)}
                     className="bg-white hover:bg-gray-50 text-[#075E54] font-bold py-3 px-4 rounded-xl shadow-md border border-gray-100 flex items-center justify-between group active:scale-95 transition-all text-sm"
                   >
@@ -334,14 +423,14 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
                       {option.label}
                     </div>
                     <Send className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </button>
+                  </motion.button>
                 ))}
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* Text Input */}
-          {currentStep?.inputType && (
+          {showOptions && currentStep?.inputType && (
             <form 
               onSubmit={handleInputSubmit}
               className="flex items-center gap-2"
