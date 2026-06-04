@@ -22,17 +22,14 @@ import { cn } from "../lib/utils";
 import { Chatbot } from "../components/Chatbot";
 import { PWAInstallPrompt } from "../components/PWAInstallPrompt";
 import { ShareButton } from "../components/ShareButton";
+import { useTheme } from "../hooks/use-theme";
 
 export default function Index() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'welcome' | 'services' | 'chatbot'>('welcome');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return document.documentElement.classList.contains('dark');
-    }
-    return false;
-  });
+  const { theme, toggleTheme } = useTheme();
+  const isDarkMode = theme === 'dark';
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -43,23 +40,6 @@ export default function Index() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const toggleDarkMode = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    if (newMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-    
-    if (window.navigator && window.navigator.vibrate) {
-      window.navigator.vibrate(10);
-    }
-  };
-
 
   useEffect(() => {
     setIsLoaded(true);
