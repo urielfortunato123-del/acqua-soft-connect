@@ -166,7 +166,7 @@ export default function Atendimento({ tipo, cliente }: AtendimentoProps) {
           </button>
           <div className="text-center">
             <h1 className="text-sm font-bold text-gray-900 uppercase tracking-widest">
-              {SERVICE_TYPES[tipo.toUpperCase() as keyof typeof SERVICE_TYPES] || "Atendimento"}
+              {cliente === 'sim' ? 'Suporte Técnico' : 'Orçamento de Purificador'}
             </h1>
             <p className="text-[10px] text-gray-400 font-bold">Passo {step} de {totalSteps}</p>
           </div>
