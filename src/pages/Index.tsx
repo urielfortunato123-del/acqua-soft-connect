@@ -18,40 +18,19 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../lib/utils";
 import { Chatbot } from "../components/Chatbot";
+import { PWAInstallPrompt } from "../components/PWAInstallPrompt";
+import { ShareButton } from "../components/ShareButton";
 
 export default function Index() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'welcome' | 'services' | 'chatbot'>('welcome');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const [showInstallBtn, setShowInstallBtn] = useState(false);
+
 
   useEffect(() => {
     setIsLoaded(true);
-
-    const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-      setShowInstallBtn(true);
-    };
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
   }, []);
 
-  const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      console.log('User accepted the install prompt');
-    }
-    setDeferredPrompt(null);
-    setShowInstallBtn(false);
-  };
 
   const trustBadges = [
     { icon: Zap, label: "Atendimento Rápido", color: "text-blue-400" },
@@ -92,6 +71,8 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-24 font-inter overflow-x-hidden">
+      <PWAInstallPrompt />
+      <ShareButton />
 
       <section className="relative h-[42vh] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#003B73] via-[#0077B6] to-[#00B4D8]" />
@@ -101,18 +82,19 @@ export default function Index() {
 
         <div className="relative z-10 h-full flex flex-col px-6 pt-12">
           <div className="flex items-center gap-4 mb-8">
-            <div className="bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/20">
+            <div className="bg-white p-1 rounded-xl shadow-lg border border-white/20">
               <img 
-                src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514625/promaxx/mr4nolr2utujehhbhlcu.png" 
+                src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780573444/promaxx/phxku1jfhtzl6g0wl748.png" 
                 alt="Acqua Soft Logo" 
-                className="h-12 w-auto" 
+                className="h-12 w-12 object-contain" 
               />
             </div>
             <div>
-              <h2 className="text-white font-bold tracking-tight text-xl leading-none">ACQUA SOFT</h2>
+              <h2 className="text-white font-black tracking-tight text-xl leading-none">ACQUA SOFT</h2>
               <span className="text-blue-100/80 text-[10px] uppercase font-bold tracking-[0.2em]">Connect</span>
             </div>
           </div>
+
 
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
@@ -135,32 +117,7 @@ export default function Index() {
       </section>
 
       <div className="px-6 -mt-10 relative z-20">
-        <AnimatePresence>
-          {showInstallBtn && (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="mb-4"
-            >
-              <button 
-                onClick={handleInstallClick}
-                className="w-full bg-[#003B73] text-white p-4 rounded-2xl shadow-lg border border-white/20 flex items-center justify-between font-bold"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="bg-white/20 p-2 rounded-xl">
-                    <Download className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-sm">Instalar Aplicativo</p>
-                    <p className="text-[10px] text-blue-100 font-normal">Acesso rápido e offline</p>
-                  </div>
-                </div>
-                <ArrowRight className="w-5 h-5 opacity-50" />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+
 
         <motion.div 
           variants={containerVariants}

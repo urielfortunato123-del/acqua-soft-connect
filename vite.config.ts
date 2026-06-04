@@ -16,7 +16,7 @@ export default defineConfig({
       manifest: {
         name: 'Acqua Soft Atendimento',
         short_name: 'Acqua Soft',
-        description: 'Atendimento para purificadores Acqua Soft Jaú',
+        description: 'Solicite suporte, orçamento ou troca de refil para seu purificador.',
         theme_color: '#003366',
         background_color: '#003366',
         display: 'standalone',
@@ -39,6 +39,9 @@ export default defineConfig({
             purpose: 'any maskable'
           }
         ]
+      },
+      devOptions: {
+        enabled: true
       }
     })
   ],
