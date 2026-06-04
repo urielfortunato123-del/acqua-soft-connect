@@ -329,17 +329,24 @@ export default function Atendimento({ tipo, cliente }: AtendimentoProps) {
                 <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100">
                   <div className="space-y-4">
                     <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                      <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Serviço</span>
-                      <span className="text-[#003B73] font-extrabold">{SERVICE_TYPES[tipo.toUpperCase() as keyof typeof SERVICE_TYPES] || tipo}</span>
+                      <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Fluxo</span>
+                      <span className="text-[#003B73] font-extrabold">{cliente === 'sim' ? 'Suporte Técnico' : 'Venda / Orçamento'}</span>
                     </div>
                     <div className="flex justify-between items-center py-2 border-b border-gray-50">
                       <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Nome</span>
                       <span className="text-[#003B73] font-bold">{watchAllFields.nome}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                      <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Modelo</span>
-                      <span className="text-[#003B73] font-bold">{watchAllFields.modelo_purificador}</span>
-                    </div>
+                    {cliente === 'sim' ? (
+                      <div className="flex justify-between items-center py-2 border-b border-gray-50">
+                        <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Modelo</span>
+                        <span className="text-[#003B73] font-bold">{watchAllFields.modelo_purificador}</span>
+                      </div>
+                    ) : (
+                      <div className="flex justify-between items-center py-2 border-b border-gray-50">
+                        <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Interesse</span>
+                        <span className="text-[#003B73] font-bold">{watchAllFields.interesse}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
