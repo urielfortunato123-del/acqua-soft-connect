@@ -1,4 +1,3 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { 
@@ -28,25 +27,14 @@ import {
   formatWhatsAppMessage 
 } from "../lib/utils";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
-interface AtendimentoSearchParams {
+interface AtendimentoProps {
   tipo: string;
   cliente: string;
 }
 
-export const Route = createFileRoute("/atendimento")({
-  validateSearch: (search: Record<string, unknown>): AtendimentoSearchParams => {
-    return {
-      tipo: (search.tipo as string) || "suporte",
-      cliente: (search.cliente as string) || "nao",
-    };
-  },
-  component: AtendimentoPage,
-});
-
-
-function AtendimentoPage() {
-  const { tipo, cliente } = Route.useSearch();
+export default function Atendimento({ tipo, cliente }: AtendimentoProps) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [locationLoading, setLocationLoading] = useState(false);
@@ -95,7 +83,7 @@ function AtendimentoPage() {
 
   const prevStep = () => {
     if (step === 1) {
-      navigate({ to: "/" });
+      navigate("/");
     } else {
       setStep(s => Math.max(s - 1, 1));
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -160,7 +148,6 @@ function AtendimentoPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-24 font-inter">
-      {/* Header com Barra de Progresso */}
       <header className="bg-white border-b border-gray-100 sticky top-0 z-30">
         <div className="px-6 py-4 flex items-center justify-between">
           <button 
@@ -175,7 +162,7 @@ function AtendimentoPage() {
             </h1>
             <p className="text-[10px] text-gray-400 font-bold">Passo {step} de {totalSteps}</p>
           </div>
-          <div className="w-10" /> {/* Espaçador */}
+          <div className="w-10" />
         </div>
         <div className="h-1.5 w-full bg-gray-100 overflow-hidden">
           <motion.div 
@@ -343,7 +330,6 @@ function AtendimentoPage() {
             )}
           </AnimatePresence>
 
-          {/* Action Buttons */}
           <div className="fixed bottom-0 left-0 right-0 p-6 bg-white/80 backdrop-blur-xl border-t border-gray-100 z-40">
             <div className="max-w-lg mx-auto">
               {step < totalSteps ? (
@@ -371,4 +357,3 @@ function AtendimentoPage() {
     </div>
   );
 }
-

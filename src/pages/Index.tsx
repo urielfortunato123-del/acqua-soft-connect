@@ -18,12 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SERVICE_TYPES } from "../lib/utils";
 import { Chatbot } from "../components/Chatbot";
 
-
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-function Index() {
+export default function Index() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'welcome' | 'services' | 'chatbot'>('welcome');
   const [isLoaded, setIsLoaded] = useState(false);
@@ -47,17 +42,8 @@ function Index() {
   ];
 
   const handleServiceSelect = (serviceId: string, isClient: boolean) => {
-    navigate({
-      to: "/atendimento",
-      search: {
-        tipo: serviceId,
-        cliente: isClient ? 'sim' : 'nao'
-      }
-    });
-  };
-
-  const openWhatsApp = () => {
-    window.open("https://wa.me/5514981200302", "_blank");
+    // SPA navigation replacement
+    window.location.href = `/atendimento?tipo=${serviceId}&cliente=${isClient ? 'sim' : 'nao'}`;
   };
 
   const containerVariants = {
@@ -82,17 +68,13 @@ function Index() {
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-24 font-inter overflow-x-hidden">
 
-      {/* Hero Banner Section (35% height approx) */}
       <section className="relative h-[42vh] overflow-hidden">
-        {/* Modern Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#003B73] via-[#0077B6] to-[#00B4D8]" />
         
-        {/* Animated Background Elements */}
         <div className="absolute top-[-10%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-[-10%] left-[-10%] w-48 h-48 bg-blue-400/20 rounded-full blur-2xl" />
 
         <div className="relative z-10 h-full flex flex-col px-6 pt-12">
-          {/* Logo and Header */}
           <div className="flex items-center gap-3 mb-8">
             <div className="bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/20">
               <img 
@@ -100,7 +82,6 @@ function Index() {
                 alt="Acqua Soft Logo" 
                 className="h-12 w-auto" 
               />
-
             </div>
             <div>
               <h2 className="text-white font-bold tracking-tight text-xl leading-none">ACQUA SOFT</h2>
@@ -122,14 +103,12 @@ function Index() {
             </p>
           </motion.div>
 
-          {/* Purifier Image Replacement/Overlay */}
           <div className="absolute right-[-20px] bottom-4 w-48 opacity-40 mix-blend-overlay">
             <Droplet className="w-full h-full text-white" strokeWidth={0.5} />
           </div>
         </div>
       </section>
 
-      {/* Trust Badges - Glassmorphism Style */}
       <div className="px-6 -mt-10 relative z-20">
         <motion.div 
           variants={containerVariants}
@@ -150,11 +129,9 @@ function Index() {
         </motion.div>
       </div>
 
-      {/* Main Action Menu */}
       <section className="px-6 mt-8">
         <h3 className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-4 ml-1">Como podemos ajudar?</h3>
         <div className="grid gap-4">
-          {/* Card 1 - Já sou cliente */}
           <motion.button 
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -178,7 +155,6 @@ function Index() {
             </div>
           </motion.button>
 
-          {/* Card 2 - Quero um purificador */}
           <motion.button 
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -204,7 +180,6 @@ function Index() {
         </div>
       </section>
 
-      {/* Featured Services Grid */}
       <AnimatePresence>
         {activeTab === 'services' && (
           <motion.section 
@@ -240,7 +215,6 @@ function Index() {
         )}
       </AnimatePresence>
 
-      {/* Footer Info */}
       <footer className="px-6 mt-12 mb-8 space-y-6">
         <div className="h-px bg-gray-200 w-full" />
         <div className="flex flex-col gap-4">
@@ -283,7 +257,6 @@ function Index() {
           </div>
         </div>
 
-
         <p className="text-center text-[10px] text-gray-300 font-medium">© 2026 Acqua Soft Atendimento • v2.0</p>
         <motion.p 
           animate={{ opacity: [0.4, 1, 0.4] }}
@@ -292,10 +265,8 @@ function Index() {
         >
           Desenvolvido por Uriel da Fonseca Fortunato
         </motion.p>
-
       </footer>
 
-      {/* Floating WhatsApp Button */}
       <motion.button 
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -306,7 +277,6 @@ function Index() {
       >
         <MessageCircle className="w-8 h-8 fill-current" />
       </motion.button>
-
     </div>
   );
 }
