@@ -34,6 +34,16 @@ export default function Index() {
     return false;
   });
 
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const toggleDarkMode = () => {
     const newMode = !isDarkMode;
     setIsDarkMode(newMode);
@@ -45,7 +55,6 @@ export default function Index() {
       localStorage.setItem('theme', 'light');
     }
     
-    // Haptic feedback se disponível
     if (window.navigator && window.navigator.vibrate) {
       window.navigator.vibrate(10);
     }
