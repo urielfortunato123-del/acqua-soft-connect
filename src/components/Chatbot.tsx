@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../lib/utils";
+import { useTheme } from "../hooks/use-theme";
 
 interface Message {
   id: string;
