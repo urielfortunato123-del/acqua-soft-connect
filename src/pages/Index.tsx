@@ -109,7 +109,7 @@ export default function Index() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-white/60 text-[10px] uppercase font-bold tracking-[0.15em] ml-0.5 mb-1 leading-tight">acquasoftpurificadores.com.br</span>
+              <span className="text-white/60 text-[10px] uppercase font-bold tracking-[0.15em] ml-0.5 mb-1 leading-tight">acquasoftpurificadores.com</span>
               <div className="flex items-baseline gap-1.5">
                 <h2 className="text-white font-black tracking-tight text-2xl leading-none">CONNECT</h2>
                 <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
@@ -307,7 +307,7 @@ export default function Index() {
             </div>
             <div className="text-xs text-gray-500">
               <p className="font-bold text-gray-700">Visite nosso site</p>
-              <a href="https://www.acquasoftpurificadores.com.br" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">www.acquasoftpurificadores.com.br</a>
+              <a href="https://www.acquasoftpurificadores.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">www.acquasoftpurificadores.com</a>
             </div>
           </div>
           <div className="flex items-center gap-3">

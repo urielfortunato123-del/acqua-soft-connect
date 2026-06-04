@@ -107,7 +107,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
       id: 'welcome',
       message: [
         "Olá! 👋 Seja bem-vindo à Acqua Soft.",
-        "Sou o assistente virtual do acquasoftpurificadores.com.br e vou ajudá-lo a encontrar a melhor solução.",
+        "Sou o assistente virtual do acquasoftpurificadores.com e vou ajudá-lo a encontrar a melhor solução.",
         "Como podemos ajudar você hoje?"
       ],
       options: [
