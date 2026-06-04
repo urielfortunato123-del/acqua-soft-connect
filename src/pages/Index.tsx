@@ -270,51 +270,51 @@ export default function Index() {
       </AnimatePresence>
 
       <footer className="px-6 mt-12 mb-8 space-y-6">
-        <div className="h-px bg-gray-200 w-full" />
+        <div className="h-px bg-border w-full" />
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+            <div className="glass p-2 rounded-xl">
               <MapPin className="w-4 h-4 text-blue-500" />
             </div>
-            <div className="text-xs text-gray-500">
-              <p className="font-bold text-gray-700">Rua Tenente Lopes, 1175</p>
+            <div className="text-xs text-muted-foreground">
+              <p className="font-bold text-foreground">Rua Tenente Lopes, 1175</p>
               <p>Centro - Jaú/SP</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+            <div className="glass p-2 rounded-xl">
               <MessageCircle className="w-4 h-4 text-green-500" />
             </div>
-            <div className="text-xs text-gray-500">
-              <p className="font-bold text-gray-700">(14) 98120-0302</p>
+            <div className="text-xs text-muted-foreground">
+              <p className="font-bold text-foreground">(14) 98120-0302</p>
               <p>vendas@acquasoftjau.com.br</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+            <div className="glass p-2 rounded-xl">
               <Zap className="w-4 h-4 text-amber-500" />
             </div>
-            <div className="text-xs text-gray-500">
-              <p className="font-bold text-gray-700">Horário de Atendimento</p>
+            <div className="text-xs text-muted-foreground">
+              <p className="font-bold text-foreground">Horário de Atendimento</p>
               <p>Segunda a Sexta: 08:00 às 18:00</p>
               <p>Sábado: 08:00 às 12:00</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+            <div className="glass p-2 rounded-xl">
               <ClipboardList className="w-4 h-4 text-indigo-500" />
             </div>
-            <div className="text-xs text-gray-500">
-              <p className="font-bold text-gray-700">Visite nosso site</p>
+            <div className="text-xs text-muted-foreground">
+              <p className="font-bold text-foreground">Visite nosso site</p>
               <a href="https://www.acquasoftpurificadores.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">www.acquasoftpurificadores.com</a>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+            <div className="glass p-2 rounded-xl">
               <ShieldCheck className="w-4 h-4 text-green-500" />
             </div>
-            <div className="text-xs text-gray-500">
-              <p className="font-bold text-gray-700">CNPJ</p>
+            <div className="text-xs text-muted-foreground">
+              <p className="font-bold text-foreground">CNPJ</p>
               <p>44.385.457/0001-38</p>
             </div>
           </div>
