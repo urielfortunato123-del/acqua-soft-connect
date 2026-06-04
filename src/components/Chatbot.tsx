@@ -9,7 +9,6 @@ import {
   ClipboardList, 
   MapPin,
   CheckCircle2,
-  Phone,
   ArrowLeft
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,7 +24,7 @@ interface Message {
 
 interface Step {
   id: string;
-  message: string | string[]; // Support multiple sequential messages
+  message: string | string[];
   options?: Array<{
     label: string;
     icon?: any;
@@ -40,21 +39,9 @@ interface Step {
 
 const TypingIndicator = () => (
   <div className="flex gap-1 p-2">
-    <motion.div
-      animate={{ scale: [1, 1.2, 1] }}
-      transition={{ repeat: Infinity, duration: 0.6 }}
-      className="w-1.5 h-1.5 bg-gray-400 rounded-full"
-    />
-    <motion.div
-      animate={{ scale: [1, 1.2, 1] }}
-      transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }}
-      className="w-1.5 h-1.5 bg-gray-400 rounded-full"
-    />
-    <motion.div
-      animate={{ scale: [1, 1.2, 1] }}
-      transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }}
-      className="w-1.5 h-1.5 bg-gray-400 rounded-full"
-    />
+    <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 0.6 }} className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
+    <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
+    <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
   </div>
 );
 
@@ -86,8 +73,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     
     for (const content of messageList) {
       if (!content) continue;
-      // Simulate typing delay based on message length
-      const delay = Math.min(Math.max(content.length * 30, 800), 2000);
+      const delay = Math.min(Math.max(content.length * 20, 500), 1500);
       await new Promise(resolve => setTimeout(resolve, delay));
       
       setMessages(prev => [...prev, {
@@ -101,14 +87,12 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     setIsBotTyping(false);
     setCurrentStepId(stepId);
     
-    // Show options or input after a small delay
     setTimeout(() => {
       setShowOptions(true);
     }, 400);
   };
 
   useEffect(() => {
-    // Start initial conversation
     addBotMessages('welcome');
   }, []);
 
@@ -116,94 +100,121 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     welcome: {
       id: 'welcome',
       message: [
-        "Olá! Seja bem-vindo à Acqua Soft. Sou sua assistente virtual e vou ajudá-lo a encontrar a melhor solução.",
+        "Olá! Seja bem-vindo à Acqua Soft.",
         "Como podemos ajudar você hoje?"
       ],
       nextStep: 'initial'
     },
     initial: {
       id: 'initial',
-      message: "", // Message handled by welcome or empty
+      message: "",
       options: [
-        { label: "Quero comprar um purificador", icon: Droplet, value: "comprar", nextStep: "buy_name" },
+        { label: "Quero comprar um purificador", icon: Droplet, value: "comprar", nextStep: "quote_name" },
         { label: "Suporte técnico", icon: Wrench, value: "suporte", nextStep: "support_name" },
         { label: "Manutenção preventiva", icon: ShieldCheck, value: "manutencao", nextStep: "maint_name" },
         { label: "Troca de refil", icon: Droplet, value: "refil", nextStep: "refil_name" },
-        { label: "Área de atendimento", icon: MapPin, value: "area", nextStep: "area_info" },
-        { label: "Falar com atendente", icon: MessageCircle, value: "atendente", action: () => openWhatsApp("Olá, gostaria de falar com um atendente.") },
-      ]
-    },
-    // Buy Flow
-    buy_name: {
-      id: 'buy_name',
-      message: "Excelente escolha! Qual é o seu nome?",
-      inputType: 'text',
-      placeholder: "Digite seu nome...",
-      nextStep: "buy_phone"
-    },
-    buy_phone: {
-      id: 'buy_phone',
-      message: "Ótimo! Agora nos informe seu WhatsApp para enviarmos o catálogo e preços.",
-      inputType: 'tel',
-      placeholder: "(14) 99999-9999",
-      nextStep: "buy_finish"
-    },
-    buy_finish: {
-      id: 'buy_finish',
-      message: ["Perfeito!", "Vou te encaminhar agora mesmo para nossa equipe comercial."],
-      options: [
-        { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("COMPRA DE PURIFICADOR") }
       ]
     },
     // Support Flow
     support_name: {
       id: 'support_name',
-      message: "Entendi. Qual é o seu nome para iniciarmos o atendimento?",
+      message: "Qual é o seu nome completo?",
       inputType: 'text',
       placeholder: "Digite seu nome...",
-      nextStep: "support_desc"
+      nextStep: "support_whatsapp"
+    },
+    support_whatsapp: {
+      id: 'support_whatsapp',
+      message: "Qual o seu WhatsApp para contato?",
+      inputType: 'tel',
+      placeholder: "(14) 99999-9999",
+      nextStep: "support_city"
+    },
+    support_city: {
+      id: 'support_city',
+      message: "Em qual cidade você está?",
+      inputType: 'text',
+      placeholder: "Digite sua cidade...",
+      nextStep: "support_neighborhood"
+    },
+    support_neighborhood: {
+      id: 'support_neighborhood',
+      message: "E qual o seu bairro?",
+      inputType: 'text',
+      placeholder: "Digite seu bairro...",
+      nextStep: "support_model"
+    },
+    support_model: {
+      id: 'support_model',
+      message: "Qual o modelo do seu purificador?",
+      options: [
+        { label: "Soft Baby", value: "Soft Baby", nextStep: "support_desc" },
+        { label: "Soft Fit", value: "Soft Fit", nextStep: "support_desc" },
+        { label: "Soft Slim", value: "Soft Slim", nextStep: "support_desc" },
+        { label: "Soft Everest", value: "Soft Everest", nextStep: "support_desc" },
+        { label: "Outro", value: "Outro", nextStep: "support_desc" },
+      ]
     },
     support_desc: {
       id: 'support_desc',
-      message: "Poderia descrever brevemente o problema que está ocorrendo?",
+      message: "Poderia descrever brevemente o problema?",
       inputType: 'text',
       placeholder: "Ex: Não está gelando...",
-      nextStep: "support_phone"
-    },
-    support_phone: {
-      id: 'support_phone',
-      message: "Qual o seu WhatsApp de contato?",
-      inputType: 'tel',
-      placeholder: "(14) 99999-9999",
       nextStep: "support_finish"
     },
     support_finish: {
       id: 'support_finish',
-      message: ["Certo.", "Vou encaminhar seu relato para nossos técnicos agora."],
+      message: ["Certo.", "Vou encaminhar seus dados para nossos técnicos agora."],
       options: [
         { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("SUPORTE TÉCNICO") }
       ]
     },
-    // Maintenance Flow
-    maint_name: {
-      id: 'maint_name',
-      message: "Manutenção em dia é saúde! Qual seu nome?",
+    // Quote Flow
+    quote_name: {
+      id: 'quote_name',
+      message: "Excelente escolha! Qual é o seu nome?",
       inputType: 'text',
       placeholder: "Digite seu nome...",
-      nextStep: "maint_phone"
+      nextStep: "quote_whatsapp"
     },
-    maint_phone: {
-      id: 'maint_phone',
-      message: "Informe seu WhatsApp para agendarmos a visita.",
+    quote_whatsapp: {
+      id: 'quote_whatsapp',
+      message: "Qual o seu WhatsApp?",
       inputType: 'tel',
       placeholder: "(14) 99999-9999",
-      nextStep: "maint_finish"
+      nextStep: "quote_city"
     },
-    maint_finish: {
-      id: 'maint_finish',
-      message: ["Tudo pronto.", "Vamos agendar agora via WhatsApp."],
+    quote_city: {
+      id: 'quote_city',
+      message: "Em qual cidade o purificador será instalado?",
+      inputType: 'text',
+      placeholder: "Digite sua cidade...",
+      nextStep: "quote_people"
+    },
+    quote_people: {
+      id: 'quote_people',
+      message: "Para quantas pessoas seria o purificador?",
       options: [
-        { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("MANUTENÇÃO PREVENTIVA") }
+        { label: "1 a 2", value: "1-2", nextStep: "quote_interest" },
+        { label: "3 a 4", value: "3-4", nextStep: "quote_interest" },
+        { label: "5 a 6", value: "5-6", nextStep: "quote_interest" },
+        { label: "Mais de 6", value: "6+", nextStep: "quote_interest" },
+      ]
+    },
+    quote_interest: {
+      id: 'quote_interest',
+      message: "Qual sua preferência de água?",
+      options: [
+        { label: "Gelada e Natural", value: "Gelada/Natural", nextStep: "quote_finish" },
+        { label: "Apenas Natural", value: "Natural", nextStep: "quote_finish" },
+        { label: "Não sei escolher", value: "Nao Sei", nextStep: "quote_finish" },
+      ]
+    },
+    quote_finish: {
+      id: 'quote_finish',
+      message: ["Ótimo!", "Vou te encaminhar para nossa equipe comercial agora mesmo."],
+      options: [
+        { label: "Solicitar Orçamento no WhatsApp", value: "finish", action: () => finishFlow("SOLICITAR ORÇAMENTO") }
       ]
     },
     // Refill Flow
@@ -212,53 +223,89 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
       message: "Trocar o refil garante a pureza da sua água. Qual seu nome?",
       inputType: 'text',
       placeholder: "Digite seu nome...",
-      nextStep: "refil_phone"
+      nextStep: "refil_whatsapp"
     },
-    refil_phone: {
-      id: 'refil_phone',
-      message: "Informe seu WhatsApp para verificarmos o modelo correto do seu refil.",
+    refil_whatsapp: {
+      id: 'refil_whatsapp',
+      message: "Qual seu WhatsApp?",
       inputType: 'tel',
       placeholder: "(14) 99999-9999",
-      nextStep: "refil_finish"
+      nextStep: "refil_model"
+    },
+    refil_model: {
+      id: 'refil_model',
+      message: "Qual o modelo do seu purificador?",
+      options: [
+        { label: "Soft Baby", value: "Soft Baby", nextStep: "refil_finish" },
+        { label: "Soft Fit", value: "Soft Fit", nextStep: "refil_finish" },
+        { label: "Soft Slim", value: "Soft Slim", nextStep: "refil_finish" },
+        { label: "Soft Everest", value: "Soft Everest", nextStep: "refil_finish" },
+        { label: "Outro", value: "Outro", nextStep: "refil_finish" },
+      ]
     },
     refil_finish: {
       id: 'refil_finish',
       message: ["Excelente.", "Vou te passar os modelos e valores no WhatsApp."],
       options: [
-        { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("TROCA DE REFIL") }
+        { label: "Pedir Refil no WhatsApp", value: "finish", action: () => finishFlow("TROCA DE REFIL") }
       ]
     },
-    // Area Info
-    area_info: {
-      id: 'area_info',
-      message: [
-        "Atendemos Jaú e toda a região!", 
-        "Nossos técnicos se deslocam até você com rapidez."
-      ],
+    // Maint Flow
+    maint_name: {
+      id: 'maint_name',
+      message: "Manutenção em dia é saúde! Qual seu nome?",
+      inputType: 'text',
+      placeholder: "Digite seu nome...",
+      nextStep: "maint_whatsapp"
+    },
+    maint_whatsapp: {
+      id: 'maint_whatsapp',
+      message: "Informe seu WhatsApp para agendarmos.",
+      inputType: 'tel',
+      placeholder: "(14) 99999-9999",
+      nextStep: "maint_model"
+    },
+    maint_model: {
+      id: 'maint_model',
+      message: "Qual o modelo do seu purificador?",
       options: [
-        { label: "Voltar ao início", value: "back", nextStep: "initial" },
-        { label: "Falar com atendente", value: "talk", action: () => openWhatsApp("Olá, gostaria de saber se atendem na minha cidade.") }
+        { label: "Soft Baby", value: "Soft Baby", nextStep: "maint_finish" },
+        { label: "Soft Fit", value: "Soft Fit", nextStep: "maint_finish" },
+        { label: "Soft Slim", value: "Soft Slim", nextStep: "maint_finish" },
+        { label: "Soft Everest", value: "Soft Everest", nextStep: "maint_finish" },
+        { label: "Outro", value: "Outro", nextStep: "maint_finish" },
       ]
-    }
-  };
-
-  const openWhatsApp = (text: string) => {
-    const encoded = encodeURIComponent(text);
-    window.open(`https://wa.me/5514981200302?text=${encoded}`, "_blank");
+    },
+    maint_finish: {
+      id: 'maint_finish',
+      message: ["Tudo pronto.", "Vamos agendar agora via WhatsApp."],
+      options: [
+        { label: "Agendar Manutenção no WhatsApp", value: "finish", action: () => finishFlow("MANUTENÇÃO PREVENTIVA") }
+      ]
+    },
   };
 
   const finishFlow = (type: string) => {
     let text = `*NOVO ATENDIMENTO VIA CHATBOT*\n`;
-    text += `*Assunto:* ${type}\n`;
+    text += `*Assunto:* ${type}\n\n`;
     Object.entries(collectedData).forEach(([key, value]) => {
-      const label = key.includes('name') ? 'Nome' : key.includes('phone') ? 'WhatsApp' : key.includes('desc') ? 'Descrição' : key;
+      let label = key.split('_')[1] || key;
+      label = label.charAt(0).toUpperCase() + label.slice(1);
+      if (label === 'Name') label = 'Nome';
+      if (label === 'Whatsapp') label = 'WhatsApp';
+      if (label === 'City') label = 'Cidade';
+      if (label === 'Neighborhood') label = 'Bairro';
+      if (label === 'Desc') label = 'Descrição';
+      if (label === 'Model') label = 'Modelo';
+      if (label === 'People') label = 'Pessoas';
+      if (label === 'Interest') label = 'Interesse';
       text += `*${label}:* ${value}\n`;
     });
-    openWhatsApp(text);
+    const encoded = encodeURIComponent(text);
+    window.open(`https://wa.me/5514981200302?text=${encoded}`, "_blank");
   };
 
   const handleOptionClick = (option: any) => {
-    // Add user message
     const userMsg: Message = {
       id: Math.random().toString(),
       type: 'user',
@@ -266,6 +313,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
       timestamp: new Date()
     };
     setMessages(prev => [...prev, userMsg]);
+    setCollectedData(prev => ({ ...prev, [currentStepId]: option.value }));
     setShowOptions(false);
 
     if (option.action) {
@@ -289,11 +337,9 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
       timestamp: new Date()
     };
     setMessages(prev => [...prev, userMsg]);
-    
-    // Store data
-    const currentStep = steps[currentStepId];
     setCollectedData(prev => ({ ...prev, [currentStepId]: inputValue }));
     
+    const currentStep = steps[currentStepId];
     const nextStepId = currentStep.nextStep;
     setInputValue('');
     setShowOptions(false);
@@ -303,57 +349,32 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     }
   };
 
-  const currentStep = steps[currentStepId];
-
   return (
     <div className="flex flex-col h-screen bg-[#E5DDD5] font-inter">
-      {/* WhatsApp Style Header */}
       <header className="bg-[#075E54] text-white px-4 py-3 flex items-center gap-3 shadow-md z-10 shrink-0">
         <button onClick={onBack} className="p-1 hover:bg-white/10 rounded-full">
           <ChevronLeft className="w-6 h-6" />
         </button>
-        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden p-1">
-          <img 
-            src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" 
-            alt="Logo" 
-            className="w-full h-auto"
-          />
+        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-inner">
+          <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" alt="Logo" className="w-full h-auto" />
         </div>
-
         <div>
           <h2 className="font-bold text-sm">Acqua Soft Connect</h2>
           <p className="text-[10px] text-white/80">Online agora</p>
         </div>
       </header>
 
-      {/* Chat Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-32">
-        <div className="bg-[#D1E9FF] text-[#4A5568] text-[10px] font-bold py-1 px-3 rounded-lg mx-auto w-fit shadow-sm uppercase tracking-wider mb-6">
-          Hoje
-        </div>
-
+        <div className="bg-[#D1E9FF] text-[#4A5568] text-[10px] font-bold py-1 px-3 rounded-lg mx-auto w-fit shadow-sm uppercase tracking-wider mb-6">Hoje</div>
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
             <div key={msg.id} className={cn("flex items-end gap-2", msg.type === 'user' && "flex-row-reverse")}>
               {msg.type === 'bot' && (
                 <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-sm shrink-0 border border-gray-100">
-                  <img 
-                    src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" 
-                    alt="Bot" 
-                    className="w-full h-auto"
-                  />
+                  <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" alt="Bot" className="w-full h-auto" />
                 </div>
               )}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 10, x: msg.type === 'bot' ? -10 : 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
-                className={cn(
-                  "max-w-[80%] rounded-2xl p-3 shadow-sm relative",
-                  msg.type === 'bot' 
-                    ? "bg-white text-[#303030] rounded-bl-none" 
-                    : "bg-[#DCF8C6] text-[#303030] rounded-br-none"
-                )}
-              >
+              <motion.div initial={{ opacity: 0, scale: 0.9, y: 10, x: msg.type === 'bot' ? -10 : 10 }} animate={{ opacity: 1, scale: 1, y: 0, x: 0 }} className={cn("max-w-[80%] rounded-2xl p-3 shadow-sm relative", msg.type === 'bot' ? "bg-white text-[#303030] rounded-bl-none" : "bg-[#DCF8C6] text-[#303030] rounded-br-none")}>
                 <div className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</div>
                 <div className="text-[9px] text-gray-400 text-right mt-1 opacity-70 flex items-center justify-end gap-1">
                   {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -362,21 +383,12 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
               </motion.div>
             </div>
           ))}
-          
           {isBotTyping && (
             <div className="flex items-end gap-2">
               <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-sm shrink-0 border border-gray-100">
-                <img 
-                  src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" 
-                  alt="Bot" 
-                  className="w-full h-auto"
-                />
+                <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" alt="Bot" className="w-full h-auto" />
               </div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 10, x: -10 }}
-                animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
-                className="bg-white rounded-2xl p-1 shadow-sm rounded-bl-none"
-              >
+              <motion.div initial={{ opacity: 0, scale: 0.9, y: 10, x: -10 }} animate={{ opacity: 1, scale: 1, y: 0, x: 0 }} className="bg-white rounded-2xl p-1 shadow-sm rounded-bl-none">
                 <TypingIndicator />
               </motion.div>
             </div>
@@ -385,70 +397,29 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input / Options Area */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-transparent pointer-events-none">
         <div className="max-w-md mx-auto pointer-events-auto space-y-3">
-          
-          {/* Action Options */}
           <AnimatePresence mode="wait">
-            {showOptions && currentStep?.options && (
-              <motion.div 
-                key={currentStepId}
-                variants={{
-                  hidden: { opacity: 0 },
-                  show: {
-                    opacity: 1,
-                    transition: {
-                      staggerChildren: 0.1
-                    }
-                  }
-                }}
-                initial="hidden"
-                animate="show"
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="grid gap-2"
-              >
-                {currentStep.options.map((option, idx) => (
-                  <motion.button
-                    key={idx}
-                    variants={{
-                      hidden: { opacity: 0, y: 10 },
-                      show: { opacity: 1, y: 0 }
-                    }}
-                    onClick={() => handleOptionClick(option)}
-                    className="bg-white hover:bg-gray-50 text-[#075E54] font-bold py-3 px-4 rounded-xl shadow-md border border-gray-100 flex items-center justify-between group active:scale-95 transition-all text-sm"
-                  >
+            {showOptions && steps[currentStepId]?.options && (
+              <motion.div key={currentStepId} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} className="grid gap-2">
+                {steps[currentStepId].options?.map((option, idx) => (
+                  <button key={idx} onClick={() => handleOptionClick(option)} className="bg-white hover:bg-gray-50 text-[#075E54] font-bold py-3 px-4 rounded-xl shadow-md border border-gray-100 flex items-center justify-between group active:scale-95 transition-all text-sm">
                     <div className="flex items-center gap-3">
                       {option.icon && <option.icon className="w-5 h-5 text-[#25D366]" />}
                       {option.label}
                     </div>
                     <Send className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </motion.button>
+                  </button>
                 ))}
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Text Input */}
-          {showOptions && currentStep?.inputType && (
-            <form 
-              onSubmit={handleInputSubmit}
-              className="flex items-center gap-2"
-            >
+          {showOptions && steps[currentStepId]?.inputType && (
+            <form onSubmit={handleInputSubmit} className="flex items-center gap-2">
               <div className="flex-1 bg-white rounded-full px-4 py-3 flex items-center shadow-md">
-                <input 
-                  autoFocus
-                  type={currentStep.inputType}
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  placeholder={currentStep.placeholder}
-                  className="flex-1 bg-transparent outline-none text-sm font-medium"
-                />
+                <input autoFocus type={steps[currentStepId].inputType} value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={steps[currentStepId].placeholder} className="flex-1 bg-transparent outline-none text-sm font-medium" />
               </div>
-              <button 
-                type="submit"
-                className="w-12 h-12 bg-[#075E54] text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform"
-              >
+              <button type="submit" className="w-12 h-12 bg-[#075E54] text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
                 <Send className="w-5 h-5" />
               </button>
             </form>
