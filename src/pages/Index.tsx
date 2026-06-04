@@ -100,17 +100,20 @@ export default function Index() {
         <div className="absolute bottom-[-10%] left-[-10%] w-48 h-48 bg-blue-400/20 rounded-full blur-2xl" />
 
         <div className="relative z-10 h-full flex flex-col px-6 pt-12">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/20">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/20">
               <img 
-                src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514625/promaxx/mr4nolr2utujehhbhlcu.png" 
+                src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780572052/promaxx/t3rqvxzugf63fvzovbp6.png" 
                 alt="Acqua Soft Logo" 
-                className="h-12 w-auto" 
+                className="h-14 w-auto drop-shadow-sm" 
               />
             </div>
-            <div>
-              <h2 className="text-white font-bold tracking-tight text-xl leading-none">ACQUA SOFT</h2>
-              <span className="text-blue-100/80 text-[10px] uppercase font-bold tracking-[0.2em]">Connect</span>
+            <div className="flex flex-col">
+              <span className="text-white/60 text-[10px] uppercase font-bold tracking-[0.3em] ml-0.5 mb-1">Bem-vindo ao</span>
+              <div className="flex items-baseline gap-1.5">
+                <h2 className="text-white font-black tracking-tight text-2xl leading-none">CONNECT</h2>
+                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              </div>
             </div>
           </div>
 
