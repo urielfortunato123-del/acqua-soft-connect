@@ -181,50 +181,50 @@ export default function Index() {
       </div>
 
       <section className="px-6 mt-8">
-        <h3 className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-4 ml-1">Como podemos ajudar?</h3>
+        <h3 className="text-muted-foreground text-xs font-bold uppercase tracking-widest mb-4 ml-1">Como podemos ajudar?</h3>
         <div className="grid gap-4">
           <motion.button 
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveTab('services')}
-            className="group relative overflow-hidden bg-white p-6 rounded-[2rem] shadow-lg shadow-gray-200/50 border border-gray-100 text-left"
+            className="group relative overflow-hidden glass p-6 rounded-[2rem] text-left transition-all duration-300"
           >
             <div className="flex justify-between items-start relative z-10">
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-[#003B73]">
+                <div className="flex items-center gap-2 text-primary dark:text-blue-300">
                   <Wrench className="w-5 h-5" />
                   <span className="font-extrabold text-lg">JÁ POSSUO UM PURIFICADOR</span>
                 </div>
-                <p className="text-gray-500 text-sm font-medium">Suporte técnico, troca de refil e manutenção.</p>
-                <div className="pt-2 flex items-center gap-2 text-[#0077B6] font-bold text-sm">
-                  Acessar <ChevronRight className="w-4 h-4" />
+                <p className="text-muted-foreground text-sm font-medium">Suporte técnico, troca de refil e manutenção.</p>
+                <div className="pt-2 flex items-center gap-2 text-secondary dark:text-blue-400 font-bold text-sm">
+                  Acessar <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </div>
-            <div className="absolute right-[-10px] bottom-[-10px] opacity-[0.03] rotate-12">
+            <div className="absolute right-[-10px] bottom-[-10px] opacity-[0.03] dark:opacity-[0.05] rotate-12 transition-transform group-hover:scale-110">
               <Wrench className="w-32 h-32" />
             </div>
           </motion.button>
 
           <motion.button 
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => handleServiceSelect('orcamento', false)}
-            className="group relative overflow-hidden bg-white p-6 rounded-[2rem] shadow-lg shadow-gray-200/50 border border-gray-100 text-left"
+            className="group relative overflow-hidden glass p-6 rounded-[2rem] text-left transition-all duration-300"
           >
             <div className="flex justify-between items-start relative z-10">
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-[#0077B6]">
+                <div className="flex items-center gap-2 text-secondary dark:text-blue-400">
                   <Droplet className="w-5 h-5" />
                   <span className="font-extrabold text-lg uppercase">Quero um purificador</span>
                 </div>
-                <p className="text-gray-500 text-sm font-medium">Solicite orçamento e instalação profissional.</p>
-                <div className="pt-2 flex items-center gap-2 text-[#00B4D8] font-bold text-sm">
-                  Solicitar <ChevronRight className="w-4 h-4" />
+                <p className="text-muted-foreground text-sm font-medium">Solicite orçamento e instalação profissional.</p>
+                <div className="pt-2 flex items-center gap-2 text-blue-400 dark:text-blue-500 font-bold text-sm">
+                  Solicitar <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </div>
-            <div className="absolute right-[-10px] bottom-[-10px] opacity-[0.03] rotate-12">
+            <div className="absolute right-[-10px] bottom-[-10px] opacity-[0.03] dark:opacity-[0.05] rotate-12 transition-transform group-hover:scale-110">
               <Droplet className="w-32 h-32" />
             </div>
           </motion.button>
