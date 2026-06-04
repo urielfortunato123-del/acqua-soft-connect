@@ -138,6 +138,13 @@ export default function Index() {
             </div>
             
             <motion.button
+              initial={{ opacity: 1, y: 0 }}
+              animate={{ 
+                opacity: isScrolled ? 0 : 1,
+                y: isScrolled ? -15 : 0,
+                pointerEvents: isScrolled ? 'none' : 'auto'
+              }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               whileTap={{ scale: 0.9 }}
               onClick={toggleDarkMode}
               className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg fixed top-20 right-4 z-[9998]"
