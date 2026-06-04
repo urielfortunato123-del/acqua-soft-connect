@@ -85,8 +85,9 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     const messageList = Array.isArray(step.message) ? step.message : [step.message];
     
     for (const content of messageList) {
+      if (!content) continue;
       // Simulate typing delay based on message length
-      const delay = Math.min(Math.max(content.length * 30, 1000), 3000);
+      const delay = Math.min(Math.max(content.length * 30, 800), 2000);
       await new Promise(resolve => setTimeout(resolve, delay));
       
       setMessages(prev => [...prev, {
@@ -149,7 +150,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     },
     buy_finish: {
       id: 'buy_finish',
-      message: "Perfeito! Vou te encaminhar agora mesmo para nossa equipe comercial.",
+      message: ["Perfeito!", "Vou te encaminhar agora mesmo para nossa equipe comercial."],
       options: [
         { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("COMPRA DE PURIFICADOR") }
       ]
@@ -178,7 +179,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     },
     support_finish: {
       id: 'support_finish',
-      message: "Vou encaminhar seu relato para nossos técnicos agora.",
+      message: ["Certo.", "Vou encaminhar seu relato para nossos técnicos agora."],
       options: [
         { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("SUPORTE TÉCNICO") }
       ]
@@ -200,7 +201,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     },
     maint_finish: {
       id: 'maint_finish',
-      message: "Tudo pronto. Vamos agendar agora via WhatsApp.",
+      message: ["Tudo pronto.", "Vamos agendar agora via WhatsApp."],
       options: [
         { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("MANUTENÇÃO PREVENTIVA") }
       ]
@@ -222,7 +223,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     },
     refil_finish: {
       id: 'refil_finish',
-      message: "Vou te passar os modelos e valores no WhatsApp.",
+      message: ["Excelente.", "Vou te passar os modelos e valores no WhatsApp."],
       options: [
         { label: "Finalizar no WhatsApp", value: "finish", action: () => finishFlow("TROCA DE REFIL") }
       ]
@@ -230,7 +231,10 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
     // Area Info
     area_info: {
       id: 'area_info',
-      message: "Atendemos Jaú e toda a região! Nossos técnicos se deslocam até você com rapidez.",
+      message: [
+        "Atendemos Jaú e toda a região!", 
+        "Nossos técnicos se deslocam até você com rapidez."
+      ],
       options: [
         { label: "Voltar ao início", value: "back", nextStep: "initial" },
         { label: "Falar com atendente", value: "talk", action: () => openWhatsApp("Olá, gostaria de saber se atendem na minha cidade.") }
