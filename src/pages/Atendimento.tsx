@@ -15,7 +15,10 @@ import {
   Settings,
   Droplet,
   Wrench,
-  AlertCircle
+  AlertCircle,
+  Home,
+  Users,
+  Star
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -24,6 +27,9 @@ import {
   SERVICE_TYPES, 
   PROBLEMS, 
   MAINTENANCE_PERIODS,
+  IMMOBILE_TYPES,
+  PEOPLE_QUANTITY,
+  INTERESTS,
   formatWhatsAppMessage 
 } from "../lib/utils";
 import { toast } from "sonner";
