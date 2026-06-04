@@ -47,6 +47,8 @@ const TypingIndicator = () => (
 );
 
 export function Chatbot({ onBack }: { onBack: () => void }) {
+  const { theme } = useTheme();
+  const isDarkMode = theme === 'dark';
   const [messages, setMessages] = useState<Message[]>([]);
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [currentStepId, setCurrentStepId] = useState('');
