@@ -16,7 +16,7 @@ import {
   Download
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SERVICE_TYPES } from "../lib/utils";
+import { cn } from "../lib/utils";
 import { Chatbot } from "../components/Chatbot";
 
 export default function Index() {
