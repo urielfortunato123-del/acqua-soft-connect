@@ -197,7 +197,7 @@ export function PreventiveMaintenanceForm() {
             <div className="bg-card p-6 rounded-[2rem] shadow-sm border border-border">
               <textarea 
                 {...register("observacoes")} 
-                className="w-full p-4 bg-muted rounded-2xl outline-none h-40 font-medium resize-none border-2 border-transparent focus:border-secondary text-foreground" 
+                className="w-full p-4 bg-muted rounded-2xl outline-none h-40 font-medium resize-none border-2 border-transparent focus:border-secondary text-foreground placeholder:text-muted-foreground" 
                 placeholder="Ex: Gostaria de uma limpeza externa também..."
               />
             </div>
