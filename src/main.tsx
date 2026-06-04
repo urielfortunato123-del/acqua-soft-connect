@@ -6,6 +6,10 @@ import { Toaster } from 'sonner';
 import Index from './pages/Index';
 import Atendimento from './pages/Atendimento';
 import './styles.css';
+import { registerSW } from 'virtual:pwa-register';
+
+// Register service worker
+registerSW({ immediate: true });
 
 const queryClient = new QueryClient();
 
