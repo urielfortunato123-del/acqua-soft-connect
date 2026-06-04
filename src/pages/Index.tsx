@@ -18,13 +18,14 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../lib/utils";
 import { Chatbot } from "../components/Chatbot";
+import { PWAInstallPrompt } from "../components/PWAInstallPrompt";
+import { ShareButton } from "../components/ShareButton";
 
 export default function Index() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'welcome' | 'services' | 'chatbot'>('welcome');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const [showInstallBtn, setShowInstallBtn] = useState(false);
+
 
   useEffect(() => {
     setIsLoaded(true);
