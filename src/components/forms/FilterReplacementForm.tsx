@@ -196,7 +196,7 @@ export function FilterReplacementForm() {
               <label className="w-full aspect-video bg-muted rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-border hover:border-secondary cursor-pointer transition-all">
                 <Camera className="w-10 h-10 text-muted-foreground/30" />
                 <span className="font-bold text-muted-foreground mt-2">Toque para tirar foto</span>
-                <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
+                <input type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileUpload} />
               </label>
               {files.length > 0 && (
                 <div className="flex gap-2 overflow-x-auto py-2">
