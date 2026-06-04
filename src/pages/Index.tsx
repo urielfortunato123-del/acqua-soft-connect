@@ -95,37 +95,53 @@ export default function Index() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pb-24 font-inter overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground pb-24 font-inter overflow-x-hidden transition-colors duration-500">
       <PWAInstallPrompt />
       <ShareButton />
 
-      <section className="relative h-[42vh] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#003B73] via-[#0077B6] to-[#00B4D8]" />
+      <section className="relative h-[45vh] overflow-hidden">
+        <motion.div 
+          animate={{ 
+            background: isDarkMode 
+              ? ["linear-gradient(to bottom right, #0F172A, #1E293B, #0F172A)"] 
+              : ["linear-gradient(to bottom right, #003B73, #0077B6, #00B4D8)"]
+          }}
+          className="absolute inset-0 animate-gradient" 
+        />
         
         <div className="absolute top-[-10%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-[-10%] left-[-10%] w-48 h-48 bg-blue-400/20 rounded-full blur-2xl" />
 
         <div className="relative z-10 h-full flex flex-col px-6 pt-12">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="bg-white p-1 rounded-xl shadow-lg border border-white/20">
-              <img 
-                src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780573444/promaxx/phxku1jfhtzl6g0wl748.png" 
-                alt="Acqua Soft Logo" 
-                className="h-12 w-12 object-contain" 
-              />
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+              <div className="bg-white dark:bg-slate-800 p-1 rounded-xl shadow-lg border border-white/20">
+                <img 
+                  src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780573444/promaxx/phxku1jfhtzl6g0wl748.png" 
+                  alt="Acqua Soft Logo" 
+                  className="h-12 w-12 object-contain" 
+                />
+              </div>
+              <div>
+                <h2 className="text-white font-black tracking-tight text-xl leading-none">ACQUA SOFT</h2>
+                <span className="text-blue-100/80 text-[10px] uppercase font-bold tracking-[0.2em]">Connect</span>
+              </div>
             </div>
-            <div>
-              <h2 className="text-white font-black tracking-tight text-xl leading-none">ACQUA SOFT</h2>
-              <span className="text-blue-100/80 text-[10px] uppercase font-bold tracking-[0.2em]">Connect</span>
-            </div>
+            
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={toggleDarkMode}
+              className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg"
+            >
+              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </motion.button>
           </div>
-
 
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="max-w-[80%]"
+            className="max-w-[85%]"
           >
             <h1 className="text-4xl font-extrabold text-white leading-tight mb-3">
               ACQUA SOFT CONNECT
@@ -135,7 +151,7 @@ export default function Index() {
             </p>
           </motion.div>
 
-          <div className="absolute right-[-20px] bottom-4 w-48 opacity-40 mix-blend-overlay">
+          <div className="absolute right-[-20px] bottom-4 w-48 opacity-20 mix-blend-overlay">
             <Droplet className="w-full h-full text-white" strokeWidth={0.5} />
           </div>
         </div>
