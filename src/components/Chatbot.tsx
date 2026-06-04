@@ -411,9 +411,9 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
             {showOptions && steps[currentStepId]?.options && (
               <motion.div key={currentStepId} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} className="grid gap-2">
                 {steps[currentStepId].options?.map((option, idx) => (
-                  <button key={idx} onClick={() => handleOptionClick(option)} className="bg-white hover:bg-gray-50 text-[#075E54] font-bold py-3 px-4 rounded-xl shadow-md border border-gray-100 flex items-center justify-between group active:scale-95 transition-all text-sm">
+                  <button key={idx} onClick={() => handleOptionClick(option)} className="bg-card hover:bg-muted text-foreground font-bold py-3 px-4 rounded-xl shadow-md border border-border flex items-center justify-between group active:scale-95 transition-all text-sm">
                     <div className="flex items-center gap-3">
-                      {option.icon && <option.icon className="w-5 h-5 text-[#25D366]" />}
+                      {option.icon && <option.icon className="w-5 h-5 text-[#25D366] dark:text-green-400" />}
                       {option.label}
                     </div>
                     <Send className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -424,10 +424,10 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
           </AnimatePresence>
           {showOptions && steps[currentStepId]?.inputType && (
             <form onSubmit={handleInputSubmit} className="flex items-center gap-2">
-              <div className="flex-1 bg-white rounded-full px-4 py-3 flex items-center shadow-md">
-                <input autoFocus type={steps[currentStepId].inputType} value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={steps[currentStepId].placeholder} className="flex-1 bg-transparent outline-none text-sm font-medium" />
+              <div className="flex-1 bg-card rounded-full px-4 py-3 flex items-center shadow-md border border-border">
+                <input autoFocus type={steps[currentStepId].inputType} value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={steps[currentStepId].placeholder} className="flex-1 bg-transparent outline-none text-sm font-medium text-foreground" />
               </div>
-              <button type="submit" className="w-12 h-12 bg-[#075E54] text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+              <button type="submit" className="w-12 h-12 bg-[#075E54] dark:bg-slate-800 text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
                 <Send className="w-5 h-5" />
               </button>
             </form>
