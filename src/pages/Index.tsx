@@ -126,7 +126,7 @@ export default function Index() {
               }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               whileTap={{ scale: 0.9 }}
-              onClick={toggleDarkMode}
+              onClick={toggleTheme}
               className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg fixed top-20 right-4 z-[9998]"
             >
               {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
