@@ -247,17 +247,20 @@ export default function Index() {
               {services.map((service) => (
                 <motion.button
                   key={service.id}
-                  whileHover={{ y: -5 }}
+                  whileHover={{ y: -5, scale: 1.02 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleServiceSelect(service.id, true)}
-                  className="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 flex flex-col gap-3 text-left"
+                  className="glass p-5 rounded-3xl flex flex-col gap-3 text-left transition-all duration-300"
                 >
-                  <div className={`w-10 h-10 rounded-2xl bg-${service.color}-50 flex items-center justify-center text-${service.color}-600`}>
+                  <div className={cn(
+                    "w-10 h-10 rounded-2xl flex items-center justify-center",
+                    `bg-${service.color}-50 dark:bg-${service.color}-900/20 text-${service.color}-600 dark:text-${service.color}-400`
+                  )}>
                     <service.icon className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-bold text-gray-900 text-sm leading-tight">{service.label}</p>
-                    <p className="text-[10px] text-gray-400 mt-1">{service.description}</p>
+                    <p className="font-bold text-foreground text-sm leading-tight">{service.label}</p>
+                    <p className="text-[10px] text-muted-foreground mt-1">{service.description}</p>
                   </div>
                 </motion.button>
               ))}
