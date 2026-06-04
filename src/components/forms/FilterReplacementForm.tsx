@@ -106,15 +106,15 @@ export function FilterReplacementForm() {
         {step === 1 && (
           <div className="space-y-6">
             <div className="space-y-2">
-              <h2 className="text-2xl font-extrabold text-[#003B73]">Dados de Contato</h2>
-              <p className="text-gray-500 font-medium">Preencha seus dados para agendamento.</p>
+              <h2 className="text-2xl font-extrabold text-primary">Dados de Contato</h2>
+              <p className="text-muted-foreground font-medium">Preencha seus dados para agendamento.</p>
             </div>
-            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 space-y-4">
-              <input {...register("nome", { required: true })} placeholder="Seu Nome completo" className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-medium border-2 border-transparent focus:border-[#0077B6]" />
-              <input {...register("whatsapp", { required: true })} placeholder="WhatsApp (DDD)" className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-medium border-2 border-transparent focus:border-[#0077B6]" />
+            <div className="bg-card p-6 rounded-[2rem] shadow-sm border border-border space-y-4">
+              <input {...register("nome", { required: true })} placeholder="Seu Nome completo" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground" />
+              <input {...register("whatsapp", { required: true })} placeholder="WhatsApp (DDD)" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground" />
               <div className="grid grid-cols-2 gap-3">
-                <input {...register("cidade", { required: true })} placeholder="Cidade" className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-medium border-2 border-transparent focus:border-[#0077B6]" />
-                <input {...register("bairro", { required: true })} placeholder="Bairro" className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-medium border-2 border-transparent focus:border-[#0077B6]" />
+                <input {...register("cidade", { required: true })} placeholder="Cidade" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground" />
+                <input {...register("bairro", { required: true })} placeholder="Bairro" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground" />
               </div>
             </div>
           </div>
@@ -123,16 +123,16 @@ export function FilterReplacementForm() {
         {step === 2 && (
           <div className="space-y-6">
             <div className="space-y-2">
-              <h2 className="text-2xl font-extrabold text-[#003B73]">Modelo do Purificador</h2>
-              <p className="text-gray-500 font-medium">Qual modelo você possui?</p>
+              <h2 className="text-2xl font-extrabold text-primary">Modelo do Purificador</h2>
+              <p className="text-muted-foreground font-medium">Qual modelo você possui?</p>
             </div>
-            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 grid grid-cols-1 gap-3">
+            <div className="bg-card p-6 rounded-[2rem] shadow-sm border border-border grid grid-cols-1 gap-3">
               {["Soft Baby", "Soft Fit", "Soft Slim", "Soft Everest", "Soft Star", "Outro"].map(opt => (
                 <button 
                   key={opt}
                   type="button"
                   onClick={() => setValue("modelo", opt)}
-                  className={`w-full p-4 rounded-2xl font-bold text-left transition-all ${watchAll.modelo === opt ? 'bg-[#003B73] text-white' : 'bg-gray-50 text-gray-500'}`}
+                  className={`w-full p-4 rounded-2xl font-bold text-left transition-all ${watchAll.modelo === opt ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}
                 >
                   {opt}
                 </button>
@@ -144,16 +144,16 @@ export function FilterReplacementForm() {
         {step === 3 && (
           <div className="space-y-6">
             <div className="space-y-2">
-              <h2 className="text-2xl font-extrabold text-[#003B73]">Última Troca</h2>
-              <p className="text-gray-500 font-medium">Quando foi a última vez que trocou o refil?</p>
+              <h2 className="text-2xl font-extrabold text-primary">Última Troca</h2>
+              <p className="text-muted-foreground font-medium">Quando foi a última vez que trocou o refil?</p>
             </div>
-            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 grid grid-cols-1 gap-3">
+            <div className="bg-card p-6 rounded-[2rem] shadow-sm border border-border grid grid-cols-1 gap-3">
               {["Menos de 6 meses", "6 meses", "1 ano", "Mais de 1 ano", "Não sei informar"].map(opt => (
                 <button 
                   key={opt}
                   type="button"
                   onClick={() => setValue("ultima_troca", opt)}
-                  className={`w-full p-4 rounded-2xl font-bold text-left transition-all ${watchAll.ultima_troca === opt ? 'bg-[#003B73] text-white' : 'bg-gray-50 text-gray-500'}`}
+                  className={`w-full p-4 rounded-2xl font-bold text-left transition-all ${watchAll.ultima_troca === opt ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}
                 >
                   {opt}
                 </button>
@@ -165,18 +165,18 @@ export function FilterReplacementForm() {
         {step === 4 && (
           <div className="space-y-6">
             <div className="space-y-2">
-              <h2 className="text-2xl font-extrabold text-[#003B73]">Visita Técnica</h2>
-              <p className="text-gray-500 font-medium">Deseja que um técnico realize a troca?</p>
+              <h2 className="text-2xl font-extrabold text-primary">Visita Técnica</h2>
+              <p className="text-muted-foreground font-medium">Deseja que um técnico realize a troca?</p>
             </div>
-            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 grid grid-cols-2 gap-4">
+            <div className="bg-card p-6 rounded-[2rem] shadow-sm border border-border grid grid-cols-2 gap-4">
               {["Sim", "Não"].map(opt => (
                 <button 
                   key={opt}
                   type="button"
                   onClick={() => setValue("visita_tecnica", opt)}
-                  className={`w-full p-6 rounded-[2rem] font-bold transition-all flex flex-col items-center gap-3 ${watchAll.visita_tecnica === opt ? 'bg-[#003B73] text-white shadow-lg shadow-blue-100' : 'bg-gray-50 text-gray-400'}`}
+                  className={`w-full p-6 rounded-[2rem] font-bold transition-all flex flex-col items-center gap-3 ${watchAll.visita_tecnica === opt ? 'bg-primary text-primary-foreground shadow-lg' : 'bg-muted text-muted-foreground'}`}
                 >
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${watchAll.visita_tecnica === opt ? 'bg-white/20' : 'bg-gray-200'}`}>
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${watchAll.visita_tecnica === opt ? 'bg-white/20' : 'bg-muted-foreground/10'}`}>
                     <CheckCircle2 className="w-6 h-6" />
                   </div>
                   {opt}
@@ -189,19 +189,19 @@ export function FilterReplacementForm() {
         {step === 5 && (
           <div className="space-y-6">
             <div className="space-y-2">
-              <h2 className="text-2xl font-extrabold text-[#003B73]">Foto do Equipamento</h2>
-              <p className="text-gray-500 font-medium">Opcional: tire uma foto do seu purificador.</p>
+              <h2 className="text-2xl font-extrabold text-primary">Foto do Equipamento</h2>
+              <p className="text-muted-foreground font-medium">Opcional: tire uma foto do seu purificador.</p>
             </div>
-            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 space-y-4">
-              <label className="w-full aspect-video bg-gray-50 rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-gray-200 hover:border-[#0077B6] cursor-pointer transition-all">
-                <Camera className="w-10 h-10 text-gray-300" />
-                <span className="font-bold text-gray-400 mt-2">Toque para tirar foto</span>
+            <div className="bg-card p-6 rounded-[2rem] shadow-sm border border-border space-y-4">
+              <label className="w-full aspect-video bg-muted rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-border hover:border-secondary cursor-pointer transition-all">
+                <Camera className="w-10 h-10 text-muted-foreground/30" />
+                <span className="font-bold text-muted-foreground mt-2">Toque para tirar foto</span>
                 <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
               </label>
               {files.length > 0 && (
                 <div className="flex gap-2 overflow-x-auto py-2">
                   {files.map((f, i) => (
-                    <div key={i} className="relative w-24 h-24 rounded-2xl overflow-hidden shadow-sm shrink-0 border border-gray-100">
+                    <div key={i} className="relative w-24 h-24 rounded-2xl overflow-hidden shadow-sm shrink-0 border border-border">
                       <img src={f.preview} className="w-full h-full object-cover" />
                     </div>
                   ))}

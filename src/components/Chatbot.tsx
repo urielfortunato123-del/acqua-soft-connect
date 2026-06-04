@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../lib/utils";
+import { useTheme } from "../hooks/use-theme";
 
 interface Message {
   id: string;
@@ -46,6 +47,8 @@ const TypingIndicator = () => (
 );
 
 export function Chatbot({ onBack }: { onBack: () => void }) {
+  const { theme } = useTheme();
+  const isDarkMode = theme === 'dark';
   const [messages, setMessages] = useState<Message[]>([]);
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [currentStepId, setCurrentStepId] = useState('');
@@ -352,12 +355,12 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#E5DDD5] font-inter">
-      <header className="bg-[#075E54] text-white px-4 py-3 flex items-center gap-3 shadow-md z-10 shrink-0">
+    <div className="flex flex-col h-screen bg-muted dark:bg-slate-950 font-inter transition-colors duration-300">
+      <header className="bg-[#075E54] dark:bg-slate-900 text-white px-4 py-3 flex items-center gap-3 shadow-md z-10 shrink-0">
         <button onClick={onBack} className="p-1 hover:bg-white/10 rounded-full">
           <ChevronLeft className="w-6 h-6" />
         </button>
-        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-inner">
+        <div className="w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center overflow-hidden p-1 shadow-inner">
           <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" alt="Logo" className="w-full h-auto" />
         </div>
         <div>
@@ -366,19 +369,22 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-32">
-        <div className="bg-[#D1E9FF] text-[#4A5568] text-[10px] font-bold py-1 px-3 rounded-lg mx-auto w-fit shadow-sm uppercase tracking-wider mb-6">Hoje</div>
+      <div className={cn(
+        "flex-1 overflow-y-auto p-4 space-y-4 pb-32 transition-colors duration-300",
+        isDarkMode ? "bg-slate-900/50" : "bg-[#E5DDD5]"
+      )}>
+        <div className="bg-blue-100 dark:bg-slate-800 text-blue-800 dark:text-blue-300 text-[10px] font-bold py-1 px-3 rounded-lg mx-auto w-fit shadow-sm uppercase tracking-wider mb-6">Hoje</div>
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
             <div key={msg.id} className={cn("flex items-end gap-2", msg.type === 'user' && "flex-row-reverse")}>
               {msg.type === 'bot' && (
-                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-sm shrink-0 border border-gray-100">
+                <div className="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center overflow-hidden p-1 shadow-sm shrink-0 border border-gray-100 dark:border-slate-600">
                   <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" alt="Bot" className="w-full h-auto" />
                 </div>
               )}
-              <motion.div initial={{ opacity: 0, scale: 0.9, y: 10, x: msg.type === 'bot' ? -10 : 10 }} animate={{ opacity: 1, scale: 1, y: 0, x: 0 }} className={cn("max-w-[80%] rounded-2xl p-3 shadow-sm relative", msg.type === 'bot' ? "bg-white text-[#303030] rounded-bl-none" : "bg-[#DCF8C6] text-[#303030] rounded-br-none")}>
+              <motion.div initial={{ opacity: 0, scale: 0.9, y: 10, x: msg.type === 'bot' ? -10 : 10 }} animate={{ opacity: 1, scale: 1, y: 0, x: 0 }} className={cn("max-w-[80%] rounded-2xl p-3 shadow-sm relative", msg.type === 'bot' ? "bg-card text-foreground rounded-bl-none" : "bg-[#DCF8C6] dark:bg-green-900/40 text-[#303030] dark:text-foreground rounded-br-none")}>
                 <div className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</div>
-                <div className="text-[9px] text-gray-400 text-right mt-1 opacity-70 flex items-center justify-end gap-1">
+                <div className="text-[9px] text-muted-foreground text-right mt-1 opacity-70 flex items-center justify-end gap-1">
                   {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   {msg.type === 'user' && <CheckCircle2 className="w-3 h-3 text-[#34B7F1]" />}
                 </div>
@@ -387,10 +393,10 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
           ))}
           {isBotTyping && (
             <div className="flex items-end gap-2">
-              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-sm shrink-0 border border-gray-100">
+              <div className="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center overflow-hidden p-1 shadow-sm shrink-0 border border-gray-100 dark:border-slate-600">
                 <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" alt="Bot" className="w-full h-auto" />
               </div>
-              <motion.div initial={{ opacity: 0, scale: 0.9, y: 10, x: -10 }} animate={{ opacity: 1, scale: 1, y: 0, x: 0 }} className="bg-white rounded-2xl p-1 shadow-sm rounded-bl-none">
+              <motion.div initial={{ opacity: 0, scale: 0.9, y: 10, x: -10 }} animate={{ opacity: 1, scale: 1, y: 0, x: 0 }} className="bg-card rounded-2xl p-1 shadow-sm rounded-bl-none">
                 <TypingIndicator />
               </motion.div>
             </div>
@@ -405,9 +411,9 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
             {showOptions && steps[currentStepId]?.options && (
               <motion.div key={currentStepId} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} className="grid gap-2">
                 {steps[currentStepId].options?.map((option, idx) => (
-                  <button key={idx} onClick={() => handleOptionClick(option)} className="bg-white hover:bg-gray-50 text-[#075E54] font-bold py-3 px-4 rounded-xl shadow-md border border-gray-100 flex items-center justify-between group active:scale-95 transition-all text-sm">
+                  <button key={idx} onClick={() => handleOptionClick(option)} className="bg-card hover:bg-muted text-foreground font-bold py-3 px-4 rounded-xl shadow-md border border-border flex items-center justify-between group active:scale-95 transition-all text-sm">
                     <div className="flex items-center gap-3">
-                      {option.icon && <option.icon className="w-5 h-5 text-[#25D366]" />}
+                      {option.icon && <option.icon className="w-5 h-5 text-[#25D366] dark:text-green-400" />}
                       {option.label}
                     </div>
                     <Send className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -418,10 +424,10 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
           </AnimatePresence>
           {showOptions && steps[currentStepId]?.inputType && (
             <form onSubmit={handleInputSubmit} className="flex items-center gap-2">
-              <div className="flex-1 bg-white rounded-full px-4 py-3 flex items-center shadow-md">
-                <input autoFocus type={steps[currentStepId].inputType} value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={steps[currentStepId].placeholder} className="flex-1 bg-transparent outline-none text-sm font-medium" />
+              <div className="flex-1 bg-card rounded-full px-4 py-3 flex items-center shadow-md border border-border">
+                <input autoFocus type={steps[currentStepId].inputType} value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={steps[currentStepId].placeholder} className="flex-1 bg-transparent outline-none text-sm font-medium text-foreground" />
               </div>
-              <button type="submit" className="w-12 h-12 bg-[#075E54] text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+              <button type="submit" className="w-12 h-12 bg-[#075E54] dark:bg-slate-800 text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
                 <Send className="w-5 h-5" />
               </button>
             </form>
