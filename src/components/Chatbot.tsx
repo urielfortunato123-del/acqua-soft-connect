@@ -358,7 +358,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
           <ChevronLeft className="w-6 h-6" />
         </button>
         <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-inner">
-          <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780572052/promaxx/t3rqvxzugf63fvzovbp6.png" alt="Logo" className="w-full h-auto p-1" />
+          <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" alt="Logo" className="w-full h-auto" />
         </div>
         <div>
           <h2 className="font-bold text-sm">Acqua Soft Connect</h2>
@@ -373,7 +373,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
             <div key={msg.id} className={cn("flex items-end gap-2", msg.type === 'user' && "flex-row-reverse")}>
               {msg.type === 'bot' && (
                 <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-sm shrink-0 border border-gray-100">
-                  <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780572052/promaxx/t3rqvxzugf63fvzovbp6.png" alt="Bot" className="w-full h-auto p-0.5" />
+                  <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" alt="Bot" className="w-full h-auto" />
                 </div>
               )}
               <motion.div initial={{ opacity: 0, scale: 0.9, y: 10, x: msg.type === 'bot' ? -10 : 10 }} animate={{ opacity: 1, scale: 1, y: 0, x: 0 }} className={cn("max-w-[80%] rounded-2xl p-3 shadow-sm relative", msg.type === 'bot' ? "bg-white text-[#303030] rounded-bl-none" : "bg-[#DCF8C6] text-[#303030] rounded-br-none")}>
@@ -388,7 +388,7 @@ export function Chatbot({ onBack }: { onBack: () => void }) {
           {isBotTyping && (
             <div className="flex items-end gap-2">
               <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-sm shrink-0 border border-gray-100">
-                <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780572052/promaxx/t3rqvxzugf63fvzovbp6.png" alt="Bot" className="w-full h-auto p-0.5" />
+                <img src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514626/promaxx/hbz0wvmn31gofszatwhx.png" alt="Bot" className="w-full h-auto" />
               </div>
               <motion.div initial={{ opacity: 0, scale: 0.9, y: 10, x: -10 }} animate={{ opacity: 1, scale: 1, y: 0, x: 0 }} className="bg-white rounded-2xl p-1 shadow-sm rounded-bl-none">
                 <TypingIndicator />

@@ -101,11 +101,11 @@ export default function Index() {
 
         <div className="relative z-10 h-full flex flex-col px-6 pt-12">
           <div className="flex items-center gap-4 mb-8">
-            <div className="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/20">
+            <div className="bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/20">
               <img 
-                src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780572052/promaxx/t3rqvxzugf63fvzovbp6.png" 
+                src="https://res.cloudinary.com/dcii6r5op/image/upload/v1780514625/promaxx/mr4nolr2utujehhbhlcu.png" 
                 alt="Acqua Soft Logo" 
-                className="h-14 w-auto drop-shadow-sm" 
+                className="h-12 w-auto" 
               />
             </div>
             <div>
