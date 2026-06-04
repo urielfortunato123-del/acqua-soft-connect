@@ -68,8 +68,7 @@ export default function Index() {
   ];
 
   const handleServiceSelect = (serviceId: string, isClient: boolean) => {
-    // SPA navigation replacement
-    window.location.href = `/atendimento?tipo=${serviceId}&cliente=${isClient ? 'sim' : 'nao'}`;
+    navigate(`/atendimento?tipo=${serviceId}&cliente=${isClient ? 'sim' : 'nao'}`);
   };
 
   const containerVariants = {
