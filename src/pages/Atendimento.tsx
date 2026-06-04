@@ -61,6 +61,8 @@ export default function Atendimento({ tipo, cliente }: AtendimentoProps) {
       longitude: null as number | null,
       maps_link: "",
       tipo_imovel: "Casa",
+      qtd_pessoas: "1 a 2 pessoas",
+      interesse: "Água gelada e natural",
       andar: "",
       elevador: false,
       caixa_alta_pressao: false,
