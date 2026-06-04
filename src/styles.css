@@ -2,17 +2,8 @@
   display: none !important;
 }
 
-@layer utilities {
-  .safe-top {
-    top: max(16px, env(safe-area-inset-top));
-  }
-  .safe-right {
-    right: max(16px, env(safe-area-inset-right));
-  }
-}
-
-
 @import "tailwindcss";
+
 
 @theme {
   --color-background: var(--background);
