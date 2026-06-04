@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { 
   User, 
@@ -16,7 +16,7 @@ import {
   Download
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SERVICE_TYPES } from "../lib/utils";
+import { cn } from "../lib/utils";
 import { Chatbot } from "../components/Chatbot";
 
 export default function Index() {
@@ -68,8 +68,7 @@ export default function Index() {
   ];
 
   const handleServiceSelect = (serviceId: string, isClient: boolean) => {
-    // SPA navigation replacement
-    window.location.href = `/atendimento?tipo=${serviceId}&cliente=${isClient ? 'sim' : 'nao'}`;
+    navigate(`/atendimento?tipo=${serviceId}&cliente=${isClient ? 'sim' : 'nao'}`);
   };
 
   const containerVariants = {
