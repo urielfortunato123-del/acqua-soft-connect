@@ -15,7 +15,10 @@ import {
   Settings,
   Droplet,
   Wrench,
-  AlertCircle
+  AlertCircle,
+  Home,
+  Users,
+  Star
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -24,6 +27,9 @@ import {
   SERVICE_TYPES, 
   PROBLEMS, 
   MAINTENANCE_PERIODS,
+  IMMOBILE_TYPES,
+  PEOPLE_QUANTITY,
+  INTERESTS,
   formatWhatsAppMessage 
 } from "../lib/utils";
 import { toast } from "sonner";
@@ -55,6 +61,8 @@ export default function Atendimento({ tipo, cliente }: AtendimentoProps) {
       longitude: null as number | null,
       maps_link: "",
       tipo_imovel: "Casa",
+      qtd_pessoas: "1 a 2 pessoas",
+      interesse: "Água gelada e natural",
       andar: "",
       elevador: false,
       caixa_alta_pressao: false,
@@ -158,7 +166,7 @@ export default function Atendimento({ tipo, cliente }: AtendimentoProps) {
           </button>
           <div className="text-center">
             <h1 className="text-sm font-bold text-gray-900 uppercase tracking-widest">
-              {SERVICE_TYPES[tipo.toUpperCase() as keyof typeof SERVICE_TYPES] || "Atendimento"}
+              {cliente === 'sim' ? 'Suporte Técnico' : 'Orçamento de Purificador'}
             </h1>
             <p className="text-[10px] text-gray-400 font-bold">Passo {step} de {totalSteps}</p>
           </div>
@@ -241,32 +249,65 @@ export default function Atendimento({ tipo, cliente }: AtendimentoProps) {
                 className="space-y-6"
               >
                 <div className="space-y-2">
-                  <h2 className="text-2xl font-extrabold text-[#003B73]">Sobre o Purificador</h2>
-                  <p className="text-gray-500 font-medium">Conte-nos mais sobre o seu equipamento.</p>
+                  <h2 className="text-2xl font-extrabold text-[#003B73]">
+                    {cliente === 'sim' ? 'Sobre o Purificador' : 'Sobre sua Necessidade'}
+                  </h2>
+                  <p className="text-gray-500 font-medium">
+                    {cliente === 'sim' ? 'Conte-nos mais sobre o seu equipamento.' : 'Conte-nos o que você procura em um purificador.'}
+                  </p>
                 </div>
 
                 <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 space-y-5">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Modelo</label>
-                    <select {...register("modelo_purificador")} className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-[#003B73] appearance-none">
-                      {PURIFIER_MODELS.map(m => <option key={m} value={m}>{m}</option>)}
-                    </select>
-                  </div>
+                  {cliente === 'sim' ? (
+                    <>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Modelo</label>
+                        <select {...register("modelo_purificador")} className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-[#003B73] appearance-none">
+                          {PURIFIER_MODELS.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                      </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Descreva o que houve</label>
-                    <textarea 
-                      {...register("descricao")} 
-                      className="w-full p-4 bg-gray-50 rounded-2xl outline-none h-32 font-medium resize-none" 
-                      placeholder="Detalhes que podem nos ajudar..." 
-                    />
-                  </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Problema ou solicitação</label>
+                        <textarea 
+                          {...register("descricao")} 
+                          className="w-full p-4 bg-gray-50 rounded-2xl outline-none h-32 font-medium resize-none" 
+                          placeholder="Ex: Vazamento, troca de refil, não gela..." 
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Tipo de Imóvel</label>
+                        <select {...register("tipo_imovel")} className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-[#003B73] appearance-none">
+                          {IMMOBILE_TYPES.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Quantidade de Pessoas</label>
+                        <select {...register("qtd_pessoas")} className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-[#003B73] appearance-none">
+                          {PEOPLE_QUANTITY.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Interesse Principal</label>
+                        <select {...register("interesse")} className="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-[#003B73] appearance-none">
+                          {INTERESTS.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <div className="bg-[#003B73]/5 p-6 rounded-[2rem] border border-blue-100/50 flex gap-4">
                   <AlertCircle className="w-6 h-6 text-[#003B73] shrink-0" />
                   <p className="text-sm text-[#003B73] font-medium leading-relaxed">
-                    Sua segurança é nossa prioridade. Todos os atendimentos são realizados por técnicos certificados.
+                    {cliente === 'sim' 
+                      ? 'Sua segurança é nossa prioridade. Todos os atendimentos são realizados por técnicos certificados.'
+                      : 'Nossos especialistas ajudarão você a escolher o modelo ideal para sua família ou empresa.'}
                   </p>
                 </div>
               </motion.div>
@@ -288,17 +329,24 @@ export default function Atendimento({ tipo, cliente }: AtendimentoProps) {
                 <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100">
                   <div className="space-y-4">
                     <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                      <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Serviço</span>
-                      <span className="text-[#003B73] font-extrabold">{SERVICE_TYPES[tipo.toUpperCase() as keyof typeof SERVICE_TYPES] || tipo}</span>
+                      <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Fluxo</span>
+                      <span className="text-[#003B73] font-extrabold">{cliente === 'sim' ? 'Suporte Técnico' : 'Venda / Orçamento'}</span>
                     </div>
                     <div className="flex justify-between items-center py-2 border-b border-gray-50">
                       <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Nome</span>
                       <span className="text-[#003B73] font-bold">{watchAllFields.nome}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                      <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Modelo</span>
-                      <span className="text-[#003B73] font-bold">{watchAllFields.modelo_purificador}</span>
-                    </div>
+                    {cliente === 'sim' ? (
+                      <div className="flex justify-between items-center py-2 border-b border-gray-50">
+                        <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Modelo</span>
+                        <span className="text-[#003B73] font-bold">{watchAllFields.modelo_purificador}</span>
+                      </div>
+                    ) : (
+                      <div className="flex justify-between items-center py-2 border-b border-gray-50">
+                        <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Interesse</span>
+                        <span className="text-[#003B73] font-bold">{watchAllFields.interesse}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 

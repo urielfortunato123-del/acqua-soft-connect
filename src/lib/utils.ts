@@ -38,33 +38,47 @@ export const MAINTENANCE_PERIODS = [
   "Mais de 1 ano"
 ];
 
+export const IMMOBILE_TYPES = [
+  "Casa",
+  "Apartamento",
+  "Comercial",
+  "Outro"
+];
+
+export const PEOPLE_QUANTITY = [
+  "1 a 2 pessoas",
+  "3 a 5 pessoas",
+  "Mais de 5 pessoas"
+];
+
+export const INTERESTS = [
+  "Água gelada",
+  "Água natural",
+  "Água gelada e natural",
+  "Não sei qual modelo escolher"
+];
+
 export function formatWhatsAppMessage(data: any) {
-  let message = `*NOVO ATENDIMENTO ACQUA SOFT*\n\n`;
-  message += `*Tipo:* ${data.tipo}\n`;
+  const isVenda = data.adquirido_anteriormente === false;
+  
+  let message = `*NOVO ATENDIMENTO ACQUA SOFT*\n`;
+  message += `*Fluxo:* ${isVenda ? 'Venda (Novo Cliente)' : 'Suporte (Já é Cliente)'}\n\n`;
+  
+  message += `*DADOS DO CLIENTE*\n`;
   message += `*Nome:* ${data.nome}\n`;
   message += `*Telefone:* ${data.telefone}\n`;
   message += `*Cidade:* ${data.cidade}\n`;
   message += `*Bairro:* ${data.bairro}\n`;
   
-  if (data.endereco) message += `*Endereço:* ${data.endereco}\n`;
-  
-  if (data.modelo_purificador) {
+  if (isVenda) {
+    message += `\n*DADOS PARA ORÇAMENTO*\n`;
+    message += `*Tipo de imóvel:* ${data.tipo_imovel}\n`;
+    message += `*Qtd. pessoas:* ${data.qtd_pessoas}\n`;
+    message += `*Interesse:* ${data.interesse}\n`;
+  } else {
+    message += `\n*DADOS DO EQUIPAMENTO*\n`;
     message += `*Modelo:* ${data.modelo_purificador === 'Outro' ? data.modelo_outro : data.modelo_purificador}\n`;
-  }
-  
-  if (data.problema) {
-    message += `*Problema:* ${data.problema === 'Outro' ? data.problema_outro : data.problema}\n`;
-  }
-  
-  if (data.descricao) message += `*Descrição:* ${data.descricao}\n`;
-  
-  if (data.tipo_imovel) {
-    message += `\n*Tipo de imóvel:* ${data.tipo_imovel}\n`;
-    if (data.tipo_imovel === 'Apartamento') {
-      message += `*Andar:* ${data.andar}\n`;
-      message += `*Elevador:* ${data.elevador ? 'Sim' : 'Não'}\n`;
-    }
-    message += `*Caixa de alta pressão:* ${data.caixa_alta_pressao ? 'Sim' : 'Não'}\n`;
+    message += `*Problema/Solicitação:* ${data.descricao}\n`;
   }
   
   if (data.maps_link) {
