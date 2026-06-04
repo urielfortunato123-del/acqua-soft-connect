@@ -109,7 +109,7 @@ export default function Index() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-white/60 text-[10px] uppercase font-bold tracking-[0.3em] ml-0.5 mb-1">Bem-vindo ao</span>
+              <span className="text-white/60 text-[10px] uppercase font-bold tracking-[0.15em] ml-0.5 mb-1 leading-tight">acquasoftpurificadores.com.br</span>
               <div className="flex items-baseline gap-1.5">
                 <h2 className="text-white font-black tracking-tight text-2xl leading-none">CONNECT</h2>
                 <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
