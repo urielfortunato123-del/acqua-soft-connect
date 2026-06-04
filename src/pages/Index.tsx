@@ -319,13 +319,16 @@ export default function Index() {
         </div>
 
         <p className="text-center text-[10px] text-gray-300 font-medium">© 2026 Acqua Soft Atendimento • v2.0</p>
-        <motion.p 
+        <motion.a 
+          href="https://wa.me/5515996969953?text=Olá,%20gostaria%20de%20fazer%20um%20orçamento%20de%20aplicativo."
+          target="_blank"
+          rel="noopener noreferrer"
           animate={{ opacity: [0.4, 1, 0.4] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="text-center text-[10px] text-blue-500 font-bold uppercase tracking-widest"
+          className="block text-center text-[10px] text-blue-500 font-bold uppercase tracking-widest hover:text-blue-600 transition-colors"
         >
           Desenvolvido por Uriel da Fonseca Fortunato
-        </motion.p>
+        </motion.a>
       </footer>
 
       <motion.button 
