@@ -150,13 +150,13 @@ export function TechnicalSupportForm() {
               <p className="text-muted-foreground font-medium">Onde o equipamento está instalado?</p>
             </div>
             <div className="bg-card p-6 rounded-[2rem] shadow-sm border border-border space-y-4">
-              <select {...register("tipo_imovel")} className="w-full p-4 bg-muted rounded-2xl outline-none font-bold text-primary appearance-none border-2 border-transparent focus:border-secondary dark:bg-slate-800">
+              <select {...register("tipo_imovel")} className="w-full p-4 bg-muted rounded-2xl outline-none font-bold text-primary appearance-none border-2 border-transparent focus:border-secondary dark:bg-slate-800 text-foreground">
                 <option value="Casa">Casa</option>
                 <option value="Apartamento">Apartamento</option>
                 <option value="Comercial">Comercial</option>
               </select>
               {watchAll.tipo_imovel === "Apartamento" && (
-                <input {...register("andar", { required: true })} placeholder="Qual o andar?" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground" />
+                <input {...register("andar", { required: true })} placeholder="Qual o andar?" className="w-full p-4 bg-muted rounded-2xl outline-none font-medium border-2 border-transparent focus:border-secondary text-foreground placeholder:text-muted-foreground" />
               )}
             </div>
           </div>
