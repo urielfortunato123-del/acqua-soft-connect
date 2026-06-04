@@ -108,12 +108,9 @@ export default function Index() {
                 className="h-14 w-auto drop-shadow-sm" 
               />
             </div>
-            <div className="flex flex-col">
-              <span className="text-white/60 text-[10px] uppercase font-bold tracking-[0.15em] ml-0.5 mb-1 leading-tight">acquasoftpurificadores.com</span>
-              <div className="flex items-baseline gap-1.5">
-                <h2 className="text-white font-black tracking-tight text-2xl leading-none">CONNECT</h2>
-                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              </div>
+            <div>
+              <h2 className="text-white font-bold tracking-tight text-xl leading-none">ACQUA SOFT</h2>
+              <span className="text-blue-100/80 text-[10px] uppercase font-bold tracking-[0.2em]">Connect</span>
             </div>
           </div>
 
@@ -123,8 +120,8 @@ export default function Index() {
             transition={{ delay: 0.3 }}
             className="max-w-[80%]"
           >
-            <h1 className="text-4xl font-black text-white leading-[1.1] mb-4 tracking-tight">
-              Soluções inteligentes para sua <span className="text-cyan-300">água.</span>
+            <h1 className="text-4xl font-extrabold text-white leading-tight mb-3">
+              ACQUA SOFT CONNECT
             </h1>
             <p className="text-blue-100 text-lg leading-relaxed font-medium">
               Solicite suporte, manutenção ou orçamento em poucos minutos.
