@@ -12,7 +12,8 @@ import {
   MessageCircle,
   MapPin,
   ChevronRight,
-  ArrowRight
+  ArrowRight,
+  Download
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SERVICE_TYPES } from "../lib/utils";
@@ -22,10 +23,35 @@ export default function Index() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'welcome' | 'services' | 'chatbot'>('welcome');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallBtn, setShowInstallBtn] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
+
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBtn(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
   }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+    }
+    setDeferredPrompt(null);
+    setShowInstallBtn(false);
+  };
 
   const trustBadges = [
     { icon: Zap, label: "Atendimento Rápido", color: "text-blue-400" },
@@ -110,6 +136,33 @@ export default function Index() {
       </section>
 
       <div className="px-6 -mt-10 relative z-20">
+        <AnimatePresence>
+          {showInstallBtn && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="mb-4"
+            >
+              <button 
+                onClick={handleInstallClick}
+                className="w-full bg-[#003B73] text-white p-4 rounded-2xl shadow-lg border border-white/20 flex items-center justify-between font-bold"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="bg-white/20 p-2 rounded-xl">
+                    <Download className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm">Instalar Aplicativo</p>
+                    <p className="text-[10px] text-blue-100 font-normal">Acesso rápido e offline</p>
+                  </div>
+                </div>
+                <ArrowRight className="w-5 h-5 opacity-50" />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <motion.div 
           variants={containerVariants}
           initial="hidden"
