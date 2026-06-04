@@ -13,7 +13,9 @@ import {
   MapPin,
   ChevronRight,
   ArrowRight,
-  Download
+  Download,
+  Moon,
+  Sun
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../lib/utils";
@@ -25,6 +27,29 @@ export default function Index() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'welcome' | 'services' | 'chatbot'>('welcome');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return document.documentElement.classList.contains('dark');
+    }
+    return false;
+  });
+
+  const toggleDarkMode = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    if (newMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+    
+    // Haptic feedback se disponível
+    if (window.navigator && window.navigator.vibrate) {
+      window.navigator.vibrate(10);
+    }
+  };
 
 
   useEffect(() => {
