@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
 import Index from './pages/Index';
 import Atendimento from './pages/Atendimento';
+import Discontinued from './pages/Discontinued';
 import './styles.css';
 import { registerSW } from 'virtual:pwa-register';
 import { ThemeProvider } from './hooks/use-theme';
@@ -31,10 +32,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
             <main className="flex-1 overflow-x-hidden">
               <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/atendimento" element={<AtendimentoWrapper />} />
-                {/* Fallback for SPA routing */}
-                <Route path="*" element={<Index />} />
+                <Route path="*" element={<Discontinued />} />
               </Routes>
             </main>
           </div>
